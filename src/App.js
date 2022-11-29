@@ -25,7 +25,7 @@ function App() {
 
   function getIcon(_iconSize){
     return L.icon({
-      iconUrl: require("./point.png"),
+      iconUrl: require("./img/point.png"),
       iconSize: [_iconSize]
     })
   }
