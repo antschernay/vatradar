@@ -10,7 +10,7 @@ import PlaneList from "./PlaneList";
 function App() {
 
 
-  const jsonUrl = 'https://cors-anywhere.herokuapp.com/https://data.vatsim.net/v3/vatsim-data.json';
+  const jsonUrl = 'https://data.vatsim.net/v3/vatsim-data.json';
 
   const [pilots, setData] = useState([]);
 
