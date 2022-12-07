@@ -7,7 +7,7 @@ const PlaneList = ({ pilots }) => {
 
     function getIcon(_iconSize){
         return L.icon({
-          iconUrl: require("./img/bower-logo.png"),
+          iconUrl: require("./img/plane4.png"),
           iconSize: [_iconSize]
         })
       }
