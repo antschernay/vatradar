@@ -16,7 +16,7 @@ const PlaneList = ({ pilots }) => {
         
         pilots.map((pilot, i) => {
             return (
-                <Marker position={[pilots[i].latitude, pilots[i].longitude]} icon={getIcon(25)}>
+                <Marker position={[pilots[i].latitude, pilots[i].longitude]} icon={getIcon(25)} key={i}>
 
                 </Marker>
                                 
