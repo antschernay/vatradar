@@ -38,7 +38,7 @@ function App() {
     fetchJson();
     const interval = setInterval(() => {
       fetchJson()
-    }, 60000); 
+    }, 61000); 
     return () => clearInterval(interval);    
   }, []);
 
