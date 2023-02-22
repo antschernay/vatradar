@@ -18,7 +18,7 @@ function App() {
 
   
   function fetchJson(){
-    fetch("http://localhost:3001")
+    fetch("https://tender-teal-panda.cyclic.app/")
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error(error))
