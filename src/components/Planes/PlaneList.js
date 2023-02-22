@@ -48,7 +48,8 @@ const PlaneList = ({ pilots, setSelectedFlight, callsign, trackedFlight }) => {
                         mouseout: (event) => event.target.closePopup(),
                       }}>  
                                       
-                      <Popup>{pilots[i].callsign}</Popup>   
+                      <Popup>{pilots[i].callsign}</Popup> 
+                      {setSelectedFlight(pilots[i])}
                 </Marker> 
               )
             }
