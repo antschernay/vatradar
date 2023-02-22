@@ -1,6 +1,5 @@
 import React from 'react';
 import atc from '../../img/atc.svg';
-import settings from '../../img/settings.svg';
 import airplane from '../../img/airplane.svg';
 import radar from '../../img/radar.svg';
 import { useState } from 'react';
