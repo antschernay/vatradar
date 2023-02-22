@@ -35,6 +35,10 @@ const FlightInfo = ({ pilot, setSelectedFlight }) => {
                         <table className='tl pa3'>
                             <th className='b white f6 pr2'>
                                 <tr>
+                                <td>Name</td>
+                                <td className='fw1 pl2'>{pilot.name}</td>
+                                </tr>
+                                <tr>
                                 <td>Speed</td>
                                 <td className='fw1 pl2'>{pilot.speed} kt</td>
                                 
