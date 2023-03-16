@@ -2,7 +2,6 @@ import React from "react";
 import { MapContainer, TileLayer} from 'react-leaflet';
 import PlaneList from "../Planes/Planes";
 import { useState } from 'react';
-import FlightInfo from '../FlightInfo/FlightInfo';
 import Toolbar from "../Toolbar/Toolbar";
 import SearchPanel from "../SearchPanel/SearchPanel";
 
