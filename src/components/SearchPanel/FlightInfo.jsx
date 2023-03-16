@@ -14,7 +14,7 @@ const FlightInfo = ({pilot, getDistance}) => {
 
     useEffect(()=>{
         try {
-            fetch(`http://localhost:3001/airport/${pilot.arr}`)
+            fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.arr}`)
             .then((response) => response.json())
             .then((responseData) => {
              
@@ -26,7 +26,7 @@ const FlightInfo = ({pilot, getDistance}) => {
             console.error(error.message)
         }
         try {
-            fetch(`http://localhost:3001/airport/${pilot.dep}`)
+            fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.dep}`)
             .then((response) => response.json())
             .then((responseData) => {
                 
