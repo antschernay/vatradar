@@ -76,11 +76,11 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                 <div className='flex br b--silver tc pa2 items-center'>
                                     {pilots.map((pilot) => {
                                         if (plane.callsign===pilot.callsign && cardType === "arrival"){
-                                            return <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime(getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir), pilot.speed))}</p>
+                                            return <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime(getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir), pilot.speed))}Z</p>
                                     }})}
 
                                         
-                                    {cardType==="departure" && <p className="code f6 white ma0">{plane.deptime.slice(0, 2)}:{plane.deptime.slice(2)}</p>}
+                                    {cardType==="departure" && <p className="code f6 white ma0">{plane.deptime.slice(0, 2)}:{plane.deptime.slice(2)}Z</p>}
                                 </div> 
                                 : null}
                             
