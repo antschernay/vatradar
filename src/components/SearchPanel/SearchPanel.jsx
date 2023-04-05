@@ -17,7 +17,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
     useEffect(() => {
         const fetchAirports  = async () => {
-            const response = await fetch(`http://localhost:3001/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`https://tender-teal-panda.cyclic.app/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
