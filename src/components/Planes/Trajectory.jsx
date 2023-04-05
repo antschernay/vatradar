@@ -38,7 +38,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
       console.error(error.message)
   }
   try {
-      fetch(`https://tender-teal-panda.cyclic.app/airport/${arrIcao}`)
+      fetch(`https://tender-teal-panda.cyclic.app/airport/${depIcao}`)
       .then((response) => response.json())
       .then((responseData) => { 
         console.log(responseData.lat_decimal)
