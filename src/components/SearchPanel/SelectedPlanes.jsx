@@ -69,7 +69,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
         planes.map((plane) => {
             return (
                 <>          
-                    <div className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#999999' :'#6B9980'}}>
+                    <div className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#777777' :'#6B9980'}}>
                         <div className="flex justify-between">
                             <div className='flex'>
                                 {cardType !== "normal" ?
