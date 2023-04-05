@@ -2,11 +2,12 @@ import React from 'react';
 import L from "leaflet";
 import {  Marker, Popup } from 'react-leaflet';
 import "leaflet-rotatedmarker";
+import Trajectory from './Trajectory.jsx';
 
 
-const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown }) => {
+const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown, user }) => {
 
-
+ 
   const icon = new L.icon({
     iconUrl: require("../../img/plane1-smol0.png"),
     iconSize: 23,
@@ -19,70 +20,50 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
    
   })
 
+  const orangeIcon = new L.icon({
+    iconUrl: require("../../img/plane13.png"),
+    iconSize: 23, 
+  })
+
 
     return ( 
       
         
-        pilots.map((pilot) => {
-            if (pilot.callsign===selectedFlight.callsign){
-              return (
-                <Marker position={[pilot.lat, pilot.lon]} rotationOrigin={'center'} icon={redIcon} rotationAngle={pilot.head} key={`${pilot.callsign}-${pilot.head}`} zIndexOffset={999999}  
-                         eventHandlers={{
-                        click: () => {
-                          setAccordionItem("");
-                          setSelectedFlight([]);
-                          
-                                                
-                        },
-                        mouseover: (event) => event.target.openPopup(),
-                        mouseout: (event) => event.target.closePopup(),
-                      }}>  
-                                     
-                                      
-                      <Popup>{pilot.callsign}</Popup> 
-                     
-                      
-                      
-                </Marker>
+      pilots.map((pilot) => {
+        const { callsign, cid, lat, lon, head, dep, arr } = pilot;
+        const isSelectedFlight = pilot.callsign === selectedFlight.callsign;
+        const isUser = cid.toString() === user;
+        const markerColor = isSelectedFlight ? redIcon : (isUser ? orangeIcon : icon);
+        const key = `${callsign}-${head}`;
+        const zIndex = isSelectedFlight || isUser ? 99999 : -1000;
+    
+      
+        return (
+          <Marker
+            position={[Number(lat), Number(lon)]}
+            rotationOrigin={'center'}
+            icon={markerColor}
+            rotationAngle={head}
+          
+            key={key}
+            zIndexOffset={zIndex}
+            eventHandlers={{
+              click: () => {
+                setSelectedFlight(isSelectedFlight ? [] : { "callsign": callsign, "dep": dep, "arr": arr });
+                handleAddPlane(pilot);
+                setAccordionItem(callsign);
+                setPanelIsShown(true);
                
-               
-              )
-            }
-           
-            else {
-            return (
-                
-                <Marker position={[pilot.lat, pilot.lon]} rotationOrigin={'center'} icon={icon} rotationAngle={pilot.head} key={`${pilot.callsign}-${pilot.head}`} 
-                        eventHandlers={{
-                        click: () => {
-                          //change the color of the selected pilot to red
-                          setSelectedFlight({"callsign":pilot.callsign, "dep": pilot.dep, "arr": pilot.arr});
-                          //add the pilot to the searchpanel
-                          handleAddPlane(pilot);
-                          //open the information about the pilot
-                          setAccordionItem(pilot.callsign);
-                          //open the searchpanel
-                          setPanelIsShown(true);
-
-                                                
-                        },
-                        mouseover: (event) => event.target.openPopup(),
-                        mouseout: (event) => event.target.closePopup(),
-                      }}>  
-                                      
-                      <Popup>{pilot.callsign}</Popup>  
-                      
-                      
-                </Marker>  
-                                              
-                 
-            );
-                    }
-        })
-
-             
-
-    );
+              },
+              mouseover: (event) => event.target.openPopup(),
+              mouseout: (event) => event.target.closePopup(),
+            }}>
+            <Popup>{callsign}</Popup>
+            {isSelectedFlight && <Trajectory lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
+          </Marker>
+        );
+       
+}))
 }
 
 export default React.memo(PlaneList, (prevProps, nextProps) => {
@@ -92,11 +73,3 @@ export default React.memo(PlaneList, (prevProps, nextProps) => {
   }
   return true;
 });
-
-
-           
-                      
-    /*<Polyline positions={[
-        [0, 0], [30, 30]
-        ]} color={'black'} weight={1}/>
-        */
