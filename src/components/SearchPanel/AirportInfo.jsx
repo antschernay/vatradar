@@ -35,7 +35,7 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
 
     useEffect(() => {
         try {
-            fetch(`http://localhost:3001/weather/${airport.icao_code}`)
+            fetch(`https://tender-teal-panda.cyclic.app/${airport.icao_code}`)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
