@@ -8,7 +8,7 @@ import SelectedAirports from "./SelectedAirports";
 
 
 const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, selectedFlight,
-    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem} ) => {
+    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport} ) => {
 
     const [airports, setAirports] = useState([]);
     const [searchField, setSearchField] = useState("");
@@ -17,7 +17,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
     useEffect(() => {
         const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`http://localhost:3001/airports/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
@@ -46,10 +46,11 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
     
 
     const handleAdd = (array, item, event) => {
-        if (!array.includes(item)) {
-            event(prevArray => [...prevArray, item])
+        console.log(array)
+        if (!array.some(value => value.icao_code === item.icao_code)) {
+        event(prevArray => [...prevArray, item])
         } 
-    }
+      }
 
     return (
         <>
@@ -66,7 +67,11 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 
                 <SelectedPlanes planes={selectedPlanes} pilots={pilots} accordionItem={accordionItem} setAccordionItem={setAccordionItem} handleFunction={handleDelete} setSelectedPlanes={setSelectedPlanes} cardType={"normal"} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}/>
-                <SelectedAirports airports={selectedAirports} pilots={pilots} accordionItem={accordionItem} setAccordionItem={setAccordionItem} handleDelete={handleDelete} setSelectedAirports={setSelectedAirports} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane}/>
+                <SelectedAirports airports={selectedAirports} pilots={pilots} 
+                                    accordionItem={accordionItem} setAccordionItem={setAccordionItem}
+                                    handleDelete={handleDelete} setSelectedAirports={setSelectedAirports} 
+                                    selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}
+                                    handleAddPlane={handleAddPlane} />
               
 
 
@@ -118,15 +123,3 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 export default SearchPanel;
 
-/*useEffect(() => {
-        const filteredPlanes = pilots.filter(pilot =>{
-            return pilot.callsign.toLowerCase().includes(searchField.toLowerCase());
-        });
-       
-        setFilteredPlanes(filteredPlanes);
-      }, [searchField]);
-      
-      
-      <div className="pa2 ba b--silver bg-mid-gray w-100 mt2">
-                    <p className="code white ma1">Airports</p>
-                </div>*/
