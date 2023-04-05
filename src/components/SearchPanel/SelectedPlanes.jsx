@@ -126,12 +126,12 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                     onDoubleClick={()=> setSelectedFlight([])}/>
                                 {accordionItem===plane.callsign ? 
                                     <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faCaretUp} 
-                                    onClick={()=> {setAccordionItem("")} />
+                                    onClick={()=> setAccordionItem("")} />
                                     :
                                     <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faCaretDown} 
-                                    onClick={()=> {setAccordionItem(plane.callsign);
+                                    onClick={()=> setAccordionItem(plane.callsign)
                                     
-                                    }} />
+                                    } />
                                 }
                                 {cardType==="normal" ? <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
                                     onClick={()=> handleFunction(planes, plane, setSelectedPlanes)}/>
