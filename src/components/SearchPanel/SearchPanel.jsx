@@ -8,7 +8,7 @@ import SelectedAirports from "./SelectedAirports";
 
 
 const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, selectedFlight,
-    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport} ) => {
+    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem } ) => {
 
     const [airports, setAirports] = useState([]);
     const [searchField, setSearchField] = useState("");
