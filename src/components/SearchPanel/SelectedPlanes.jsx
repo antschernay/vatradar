@@ -45,7 +45,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
 
       const getArrivalTime = (mins) => {
         if (mins===0) {
-            return "'N/A'";
+            return "--:--";
         }
         // Get the current GMT time
         let gmtTime = new Date();
