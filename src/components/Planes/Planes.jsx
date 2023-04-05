@@ -5,7 +5,7 @@ import "leaflet-rotatedmarker";
 import Trajectory from './Trajectory.jsx';
 
 
-const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown, user }) => {
+const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown }) => {
 
  
   const icon = new L.icon({
@@ -20,10 +20,7 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
    
   })
 
-  const orangeIcon = new L.icon({
-    iconUrl: require("../../img/plane13.png"),
-    iconSize: 23, 
-  })
+
 
 
     return ( 
@@ -32,10 +29,9 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
       pilots.map((pilot) => {
         const { callsign, cid, lat, lon, head, dep, arr } = pilot;
         const isSelectedFlight = pilot.callsign === selectedFlight.callsign;
-        const isUser = cid.toString() === user;
-        const markerColor = isSelectedFlight ? redIcon : (isUser ? orangeIcon : icon);
+        const markerColor = isSelectedFlight ? redIcon : icon;
         const key = `${callsign}-${head}`;
-        const zIndex = isSelectedFlight || isUser ? 99999 : -1000;
+        const zIndex = isSelectedFlight ? 99999 : -1000;
     
       
         return (
@@ -44,7 +40,6 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
             rotationOrigin={'center'}
             icon={markerColor}
             rotationAngle={head}
-          
             key={key}
             zIndexOffset={zIndex}
             eventHandlers={{
