@@ -82,17 +82,17 @@ const FlightInfo = ({pilot, getDistance}) => {
 
     return(
         <>
-            <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#1B573F'}}>
+             <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#1B573F'}}>
                    
                         <div className='w-50 tc bb b--silver items-center'>
                             <p className='f6 mb0'>From</p>
-                            <p className='b f5 mt1 mb2'>{dep.city}</p>
+                            <p className='f6 mt1 mb2'><b>{pilot.dep}</b> ({dep.city})</p>
                         </div>
                         
                         <div className='w-50 tc bl bb b--silver items-center'>
                             
                             <p className='f6 mb0'>To</p>
-                            <p className='b f5 mt1 mb2'>{arr.city}</p>
+                            <p className='f6 mt1 mb2'><b>{pilot.arr}</b> ({arr.city})</p>
                         </div>
                
                    
