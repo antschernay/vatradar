@@ -76,7 +76,22 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 
                 {searchField.length ?
-                    <div className="">
+                   <div className="">
+                         <div>
+                            {airports.length===1 ?
+                                airports.map((airport) => {
+                                    return (
+                                    
+                                        <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
+                                            <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
+                                            <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faMapPin} 
+                                                     onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
+                                        </div>
+                                    );
+                                })
+                                :null
+                            }
+                        </div>      
                         <div>
                          {
                             filteredPlanes.map((plane) => {
@@ -93,7 +108,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                             }
                         </div>        
                         <div>
-                            {airports.length ?
+                            {airports.length > 1 ?
                                 airports.map((airport) => {
                                     return (
                                     
@@ -104,6 +119,11 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                         </div>
                                     );
                                 })
+                                :null
+                            }
+                        </div>        
+                    </div> 
+
                                 :null
                             }
                         </div>        
