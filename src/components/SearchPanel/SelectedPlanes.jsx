@@ -43,7 +43,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
       };
 
 
-      const getArrivalTime = (mins) => {
+      const getArrivalTime = (mins, distance) => {
        if (mins===0) {
             if (distance < 20) {
                 return 'ARRIVD';
