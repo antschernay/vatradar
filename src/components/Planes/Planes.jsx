@@ -5,7 +5,7 @@ import "leaflet-rotatedmarker";
 import Trajectory from './Trajectory.jsx';
 
 
-const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown }) => {
+const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown }) => {
 
  
   const icon = new L.icon({
@@ -53,7 +53,12 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
               mouseover: (event) => event.target.openPopup(),
               mouseout: (event) => event.target.closePopup(),
             }}>
-            <Popup>{callsign}</Popup>
+            <Popup>
+              <p className='f7 b'>{callsign} {aircraft}</p>
+              <p className='f7'>{alti} {speed}</p>
+              <p className='f7'>{dep} {arr}</p>
+              
+            </Popup>
             {isSelectedFlight && <Trajectory lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
           </Marker>
         );
@@ -61,7 +66,7 @@ const PlaneList = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, 
 }))
 }
 
-export default React.memo(PlaneList, (prevProps, nextProps) => {
+export default React.memo(Planes, (prevProps, nextProps) => {
   // only re-render if pilots or selectedFlight have changed
   if (prevProps.pilots !== nextProps.pilots || prevProps.selectedFlight !== nextProps.selectedFlight) {
     return false;
