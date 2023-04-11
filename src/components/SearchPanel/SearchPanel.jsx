@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapPin } from '@fortawesome/free-solid-svg-icons';
 import SelectedPlanes from "./SelectedPlanes";
 import SelectedAirports from "./SelectedAirports";
+import pin from '../../img/pin1.svg';
 
 
 
@@ -95,11 +96,11 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                         <div>
                          {
                             filteredPlanes.map((plane) => {
-                                return (
+                             return (
                                 
                                     <div className="pa2 ba b--silver bg-transparent flex justify-between w-100 mt2">
                                         <p className="code f6 white ma0"><b>{plane.callsign}</b>, {plane.dep} - {plane.arr}</p>
-                                        <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faMapPin} 
+                                        <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
                                                      onClick={()=> handleAddPlane(plane)}/>
                                     
                                     </div>
