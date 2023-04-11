@@ -27,7 +27,7 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
       
         
       pilots.map((pilot) => {
-        const { callsign, cid, lat, lon, head, dep, arr } = pilot;
+        const { callsign, cid, lat, lon, head, dep, arr, aircraft, alti, speed } = pilot;
         const isSelectedFlight = pilot.callsign === selectedFlight.callsign;
         const markerColor = isSelectedFlight ? redIcon : icon;
         const key = `${callsign}-${head}`;
