@@ -44,8 +44,11 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
 
 
       const getArrivalTime = (mins) => {
-        if (mins===0) {
-            return "--:--";
+       if (mins===0) {
+            if (distance < 20) {
+                return 'ARRIVD';
+            }
+            else return 'DEPART';
         }
         // Get the current GMT time
         let gmtTime = new Date();
@@ -76,7 +79,9 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                 <div className='flex br b--silver tc pa2 items-center'>
                                     {pilots.map((pilot) => {
                                         if (plane.callsign===pilot.callsign && cardType === "arrival"){
-                                            return <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime(getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir), pilot.speed))}Z</p>
+                                             return <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime
+                                                (getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir), pilot.speed),
+                                                 getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir))}</p>
                                     }})}
 
                                         
