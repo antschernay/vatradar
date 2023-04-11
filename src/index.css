@@ -125,8 +125,7 @@ a.leaflet-popup-close-button{
 .leaflet-popup-content {
   margin: 1em !important;
   line-height: 0 !important;
-  text-align: center !important;
-  font-weight: bold !important;
+
   
 }
 
