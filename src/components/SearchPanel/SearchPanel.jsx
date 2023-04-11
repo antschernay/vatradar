@@ -75,8 +75,8 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
               
 
 
-                {searchField.length ?
-                   <div className="">
+               {searchField.length ?
+                    <div className="">
                          <div>
                             {airports.length===1 ?
                                 airports.map((airport) => {
@@ -119,11 +119,6 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                         </div>
                                     );
                                 })
-                                :null
-                            }
-                        </div>        
-                    </div> 
-
                                 :null
                             }
                         </div>        
