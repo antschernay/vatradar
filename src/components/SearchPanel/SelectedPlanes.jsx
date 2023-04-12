@@ -61,7 +61,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
         let minutes = newTime.getUTCMinutes().toString().padStart(2, '0');
       
         // Return the new time in "hh:mm" format
-        return `${hours}:${minutes}`;
+        return `${hours}:${minutes}Z`;
       }
 
 
