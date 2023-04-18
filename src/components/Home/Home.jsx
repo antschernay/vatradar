@@ -1,6 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer} from 'react-leaflet';
-import PlaneList from "../Planes/Planes";
+import Planes from "../Planes/Planes";
 import { useState } from 'react';
 import Toolbar from "../Toolbar/Toolbar";
 import SearchPanel from "../SearchPanel/SearchPanel";
@@ -56,7 +56,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
              
                 {planesAreShown &&
                 
-                    <Planes pilots={pilots} handleAddPlane={handleAddPlane} selectedFlight={selectedFlight} user={user}
+                    <Planes pilots={pilots} handleAddPlane={handleAddPlane} selectedFlight={selectedFlight} 
                                 setSelectedFlight={setSelectedFlight} setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown}/> 
 
                 }
