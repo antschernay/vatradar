@@ -4,15 +4,18 @@ import PlaneList from "../Planes/Planes";
 import { useState } from 'react';
 import Toolbar from "../Toolbar/Toolbar";
 import SearchPanel from "../SearchPanel/SearchPanel";
+import Airports from "../Airports/Airports";
 
 
 
-const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports}) => {
-
+const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, airports}) => {
     const [planesAreShown, setPlanesAreShown] = useState(true);
     const [panelIsShown, setPanelIsShown] = useState(false);
+    const [airportsAreShown, setAirportsAreShown] = useState(false);
     const [accordionItem, setAccordionItem] = useState("");
     const [selectedFlight, setSelectedFlight] = useState([]);
+    const [selectedAirport, setSelectedAirport] = useState([]);
+    
 
 
     const handleAddPlane = (plane) => {
@@ -23,6 +26,8 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     }}
 
 
+
+
     return( 
         <>
         <div className="flex">
@@ -30,7 +35,8 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                 <SearchPanel pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes}
                                 selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
                                 selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane}
-                                accordionItem={accordionItem} setAccordionItem={setAccordionItem}/>
+                                accordionItem={accordionItem} setAccordionItem={setAccordionItem}
+                                selectedAirport={selectedAirport}/>
             }
 
             <MapContainer center={[30, 0]} zoom={3} minZoom={2} scrollWheelZoom={true} zoomControl={false}
@@ -45,14 +51,22 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                 />
 
                 <Toolbar planesAreShown={planesAreShown} setPlanesAreShown={setPlanesAreShown} 
-                         panelIsShown={panelIsShown} setPanelIsShown={setPanelIsShown} />
+                         panelIsShown={panelIsShown} setPanelIsShown={setPanelIsShown}
+                         airportsAreShown={airportsAreShown} setAirportsAreShown={setAirportsAreShown} />
              
                 {planesAreShown &&
                 
-                    <PlaneList pilots={pilots} handleAddPlane={handleAddPlane} selectedFlight={selectedFlight} 
+                    <Planes pilots={pilots} handleAddPlane={handleAddPlane} selectedFlight={selectedFlight} user={user}
                                 setSelectedFlight={setSelectedFlight} setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown}/> 
 
                 }
+
+                {airportsAreShown && 
+                    <Airports airports={airports} selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
+                              setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown} selectedAirport={selectedAirport} 
+                              setSelectedAirport={setSelectedAirport}/>
+                }
+                
                 
                
             
