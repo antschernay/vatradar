@@ -72,7 +72,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
         planes.map((plane) => {
             return (
                 <>          
-                    <div className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#777777' :'#6B9980'}}>
+                    <div className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#777777' :'#71967E'}}>
                         <div className="flex justify-between">
                             <div className='flex'>
                                 {cardType !== "normal" ?
@@ -171,43 +171,12 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
     )
 };
 
-export default SelectedPlanes;
+export default React.memo(SelectedPlanes, (prevProps, nextProps) => {
+    // only re-render if pilots or selectedFlight have changed
+    if (prevProps.pilots !== nextProps.pilots || prevProps.planes !== nextProps.planes ||
+         prevProps.accordionItem !== nextProps.accordionItem || prevProps.selectedFlight !== nextProps.selectedFlight) {
+      return false;
+    }
+    return true;
+  });
 
-/*
-const isFound = (callsign) => pilots.some(pilot => {
-        if (pilot.callsign === callsign) {
-          return true;
-        }
-        return false;
-      });
-       {!isFound(plane.callsign) && accordionItem===plane.callsign
-                        ?
-                            <div className='pa2 ba b--silver w-100' style={{backgroundColor:'#1B573F'}}>
-                                <p className="code f6 white mt1 ml1">Information about this flight is not available anymore</p>
-                            </div>
-                        : null
-                    }
-                    
-                    
-                    
-                     useEffect(() => {
-        const getAirport = (icaoCode, setFunction) => {
-            try {
-                fetch(`http://localhost:3001/airport/${icaoCode}`)
-                .then((response) => response.json())
-                .then((responseData) => {
-                   console.log(responseData)
-                    setFunction(responseData);
-                })
-            } 
-            catch (error) {
-                
-                console.error(error.message)
-            }
-        }
-      })
-      
-
-
-      {cardType==="arrival" && <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime(getDistance(plane.lat, plane.lon, plane.latAir, plane.lonAir), plane.speed))}</p>}
-      */
