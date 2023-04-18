@@ -32,10 +32,10 @@ const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsSh
                     }
 
                     {airportsAreShown ?
-                        <img className='pa2 mh2 pointer bg-white br3' src={airport} alt="airport" width="27" height="27"
+                        <img className='pa2 pointer bg-white br3' src={airport} alt="airport" width="27" height="27"
                             onClick={()=> setAirportsAreShown(!airportsAreShown)}/>
                         :
-                        <img className='pa2 mh2 pointer br3' src={airport} alt="airport" width="27" height="27"
+                        <img className='pa2 pointer br3' src={airport} alt="airport" width="27" height="27"
                             onClick={()=> setAirportsAreShown(!airportsAreShown)}/>
                     }
 
