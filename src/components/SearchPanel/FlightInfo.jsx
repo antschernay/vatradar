@@ -36,7 +36,7 @@ const FlightInfo = ({pilot, getDistance}) => {
             
             console.log(error)
         }
-    },[pilot.arr, pilot.dep][pilot.arr, pilot.dep]);
+    },[]);
 
 
     useEffect(() => {
