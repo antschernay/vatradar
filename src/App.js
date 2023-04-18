@@ -59,7 +59,7 @@ function App() {
      <div className='app'>
       <Navigation dateTime={time} pilots={pilots.length}/>
       <Routes>
-        <Route path='/' element={<Home pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes} 
+        <Route path='/' element={<Home pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes} airports={airports}
                                             selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}/>} />
         <Route path='/signin' element={<SignIn/>} />
         <Route path='/register' element={<Register/>}/>
