@@ -85,7 +85,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
-                                            <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faMapPin} 
+                                           <img className='dib pointer' src={pin} alt="pin" width="20" height="20" 
                                                      onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
                                         </div>
                                     );
@@ -115,8 +115,8 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
-                                            <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faMapPin} 
-                                                     onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
+                                            <img className='dib pointer' src={pin} alt="pin" width="20" height="20" 
+                                                onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
                                         </div>
                                     );
                                 })
