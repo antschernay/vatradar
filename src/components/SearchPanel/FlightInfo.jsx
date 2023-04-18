@@ -82,7 +82,7 @@ const FlightInfo = ({pilot, getDistance}) => {
 
     return(
         <>
-             <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#1B573F'}}>
+             <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#2B523D'}}>
                    
                         <div className='w-50 tc bb b--silver items-center'>
                             <p className='f6 mb0'>From</p>
@@ -98,7 +98,7 @@ const FlightInfo = ({pilot, getDistance}) => {
                    
                     
             </div>
-            <div className='pa2 br bl bb b--silver w-100' style={{backgroundColor:'#1B573F'}}>
+            <div className='pa2 br bl bb b--silver w-100' style={{backgroundColor:'#2B523D'}}>
                 
                 <table className='tl'>
                     <th className='b white f6'>
@@ -163,7 +163,7 @@ const FlightInfo = ({pilot, getDistance}) => {
   };
 
 
-export default FlightInfo;
+export default React.memo(FlightInfo);
   
 
 
