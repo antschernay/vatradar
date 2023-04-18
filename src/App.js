@@ -11,10 +11,12 @@ import Register from './components/Register/Register';
 
 function App() {
 
-  const [pilots, setData] = useState([]);
+  const [pilots, setPilots] = useState([]);
+  const [airports, setAirports] = useState([]);
   const [time, setTime] = useState(new Date().toUTCString());
   const [selectedPlanes, setSelectedPlanes] = useState([]);
   const [selectedAirports, setSelectedAirports] = useState([]);
+  const [user, setUser] = useState([]);
 
   
   React.useEffect(() => {
@@ -26,19 +28,24 @@ function App() {
 
  
 
-  function fetchJson(){
-    fetch("https://tender-teal-panda.cyclic.app/")
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
+  async function fetchPilots(){
+    const data = await fetch("http://localhost:3001")
+    const pilots = await data.json();
+    setPilots(pilots);
+
+    const data2 = await fetch("http://localhost:3001/mapAirports")
+    const airports = await data2.json()
+    setAirports(airports)
   }
-
-
+     
+  
 
   React.useEffect(() => {
-    fetchJson();
+    fetchPilots();
+
     const interval = setInterval(() => {
-      fetchJson()
+      fetchPilots();
+
     }, 60000); 
     return () => clearInterval(interval);    
   }, []);
