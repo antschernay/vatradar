@@ -6,6 +6,7 @@ import inAir from '../../img/inair4.svg';
 import standing from '../../img/standing3.svg';
 import landing from '../../img/landing2.svg';
 import takeoff from '../../img/takeoff2.svg';
+import pin from '../../img/pin1.svg';
 import FlightInfo from './FlightInfo';
 
 
