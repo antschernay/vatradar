@@ -53,10 +53,12 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
               mouseover: (event) => event.target.openPopup(),
               mouseout: (event) => event.target.closePopup(),
             }}>
-            <Popup>
-              <p className='f7 b'>{callsign} {aircraft}</p>
-              <p className='f7'>{alti} {speed}</p>
-              <p className='f7'>{dep} {arr}</p>
+           <Popup>
+              <div className='ph2'>
+                <p className='b'>{callsign} {aircraft}</p>
+                <p className=''>{alti} {speed}</p>
+                <p className=''>{dep} {arr}</p>
+              </div>
               
             </Popup>
             {isSelectedFlight && <Trajectory lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
