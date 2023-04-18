@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp, faXmark, faLocationDot, faGripLines, faMapPin, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faXmark, faLocationDot, faGripLines, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 import inAir from '../../img/inair4.svg';
 import standing from '../../img/standing3.svg';
 import landing from '../../img/landing2.svg';
@@ -140,8 +140,9 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                 }
                                 {cardType==="normal" ? <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
                                     onClick={()=> handleFunction(planes, plane, setSelectedPlanes)}/>
-                                    : <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faMapPin} 
-                                    onClick={()=> handleFunction(plane)}/>}
+                                    : <img className='dib pointer' src={pin} alt="pin" width="20" height="20"
+                                        onClick={()=> handleFunction(plane)}></img>
+                                }
                               
                             </div>
                         </div>
