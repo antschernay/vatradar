@@ -16,7 +16,7 @@ function App() {
   const [time, setTime] = useState(new Date().toUTCString());
   const [selectedPlanes, setSelectedPlanes] = useState([]);
   const [selectedAirports, setSelectedAirports] = useState([]);
-  const [user, setUser] = useState([]);
+
 
   
   React.useEffect(() => {
