@@ -15,8 +15,9 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
   const [depAirportLon, setDepAirportLon] = useState(lon);
 
   useEffect(() => {
+    let arrAirportLong;
     try {
-      fetch(`https://tender-teal-panda.cyclic.app/airport/${arrIcao}`)
+      fetch(`http://localhost:3001/airport/${arrIcao}`)
       .then((response) => response.json())
       .then((responseData) => {
        
@@ -29,6 +30,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
         else  {
         setArrAirportLat(responseData.lat_decimal);
         setArrAirportLon(responseData.lon_decimal);
+        arrAirportLong = responseData.lon_decimal;
         }
           
       })
@@ -38,7 +40,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
       console.error(error.message)
   }
   try {
-      fetch(`https://tender-teal-panda.cyclic.app/airport/${depIcao}`)
+      fetch(`http://localhost:3001/airport/${depIcao}`)
       .then((response) => response.json())
       .then((responseData) => { 
         console.log(responseData.lat_decimal)
@@ -52,28 +54,48 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
         else {
         setDepAirportLat(responseData.lat_decimal);
         setDepAirportLon(responseData.lon_decimal);
+        if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon < -50) {
+         
+          setDepAirportLon(responseData.lon_decimal - 360);
+          
+        }
+        else if (responseData.lon_decimal > 100 && arrAirportLong < -50) {
+          
+          setArrAirportLon(arrAirportLong + 360)
+          
+        }
+       
+        else if (responseData.lon_decimal < -50 && arrAirportLong > 100){
+          setArrAirportLon(arrAirportLong -360)
+        }
         }
       })
+      
+      
   } catch (error) {
    
       console.log(error)
   }
   }, []);
+
+ 
     
     
     return (
-
+      <>
+    
       
       <Polyline positions={[[arrAirportLat, arrAirportLon], [lat, lon], 
                [depAirportLat, depAirportLon]]} color={'#BA7170'} weight={2} smoothFactor={2.0} pane={"markerPane"} />
      
 
-     
+      </>
     );
 
 }
 
 
 export default Trajectory;
+
 
 
