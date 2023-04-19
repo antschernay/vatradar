@@ -1,7 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapPin } from '@fortawesome/free-solid-svg-icons';
 import SelectedPlanes from "./SelectedPlanes";
 import SelectedAirports from "./SelectedAirports";
 import pin from '../../img/pin1.svg';
@@ -9,7 +7,7 @@ import pin from '../../img/pin1.svg';
 
 
 const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, selectedFlight,
-    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem } ) => {
+    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport} ) => {
 
     const [airports, setAirports] = useState([]);
     const [searchField, setSearchField] = useState("");
@@ -18,7 +16,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
     useEffect(() => {
         const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`http://localhost:3001/airports/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
@@ -68,15 +66,16 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 
                 <SelectedPlanes planes={selectedPlanes} pilots={pilots} accordionItem={accordionItem} setAccordionItem={setAccordionItem} handleFunction={handleDelete} setSelectedPlanes={setSelectedPlanes} cardType={"normal"} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}/>
-                <SelectedAirports airports={selectedAirports} pilots={pilots} 
+                <SelectedAirports airports={selectedAirports} pilots={pilots} setSelectedPlanes={setSelectedPlanes}
                                     accordionItem={accordionItem} setAccordionItem={setAccordionItem}
                                     handleDelete={handleDelete} setSelectedAirports={setSelectedAirports} 
                                     selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}
-                                    handleAddPlane={handleAddPlane} />
+                                    handleAddPlane={handleAddPlane} selectedAirport={selectedAirport}
+                                    />
               
 
 
-               {searchField.length ?
+                {searchField.length ?
                     <div className="">
                          <div>
                             {airports.length===1 ?
@@ -85,7 +84,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
-                                           <img className='dib pointer' src={pin} alt="pin" width="20" height="20" 
+                                            <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
                                                      onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
                                         </div>
                                     );
@@ -96,7 +95,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                         <div>
                          {
                             filteredPlanes.map((plane) => {
-                             return (
+                                return (
                                 
                                     <div className="pa2 ba b--silver bg-transparent flex justify-between w-100 mt2">
                                         <p className="code f6 white ma0"><b>{plane.callsign}</b>, {plane.dep} - {plane.arr}</p>
@@ -115,8 +114,9 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
-                                            <img className='dib pointer' src={pin} alt="pin" width="20" height="20" 
+                                            <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
                                                 onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
+                                            
                                         </div>
                                     );
                                 })
