@@ -173,12 +173,5 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
     )
 };
 
-export default React.memo(SelectedPlanes, (prevProps, nextProps) => {
-    // only re-render if pilots or selectedFlight have changed
-    if (prevProps.pilots !== nextProps.pilots || prevProps.planes !== nextProps.planes ||
-         prevProps.accordionItem !== nextProps.accordionItem || prevProps.selectedFlight !== nextProps.selectedFlight) {
-      return false;
-    }
-    return true;
-  });
+export default React.memo(SelectedPlanes);
 
