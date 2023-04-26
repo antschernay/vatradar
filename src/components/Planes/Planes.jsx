@@ -68,10 +68,12 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
 }))
 }
 
-export default React.memo(Planes, (prevProps, nextProps) => {
+export default React.memo(Planes);
+
+/* (prevProps, nextProps) => {
   // only re-render if pilots or selectedFlight have changed
   if (prevProps.pilots !== nextProps.pilots || prevProps.selectedFlight !== nextProps.selectedFlight) {
     return false;
   }
   return true;
-});
+});*/
