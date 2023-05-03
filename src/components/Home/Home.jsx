@@ -76,4 +76,12 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     )
 }
 
-export default Home;
+export default React.memo(Home, (prevProps, nextProps) => {
+
+    if (prevProps.pilots !== nextProps.pilots || prevProps.airports !== nextProps.airports || 
+        prevProps.selectedAirports !== nextProps.selectedAirports || prevProps.selectedPlanes !== nextProps.selectedPlanes
+        ) {
+            return false
+        }
+    else return true;
+});
