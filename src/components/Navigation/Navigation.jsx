@@ -3,7 +3,9 @@ import logo from '../../img/logo15.png';
 import { Link } from 'react-router-dom';
 
 
-const Navigation = ({dateTime, pilots}) => { 
+const Navigation = ({dateTime, pilots, user, setUser}) => { 
+
+
     
         return (
          <nav className='flex justify-between bg-near-black navbar code silver'>
@@ -13,9 +15,18 @@ const Navigation = ({dateTime, pilots}) => {
                 
             </div> 
             <div className="flex">
-                   
-                <p className='f5 b link pt1 ph3 dim pointer'><Link className='silver no-underline' to='/signin'>Sign In</Link></p>
-                <p className='f5 b link dim ph3 pt1 pointer'><Link className='silver no-underline' to='/register'>Register</Link></p>
+                {user.user_id ? 
+                <>  <p className='f5 b link pt1 ph3 dim pointer'><Link className='silver no-underline' to='/favorites'>Favorites</Link></p>
+                    <p className='f5 b link pt1 ph3 dim pointer'><Link className='silver no-underline' to='/profile'>Profile</Link></p>
+                    <p className='f5 b link pt1 ph3 dim pointer' onClick={()=> {sessionStorage.setItem("login", JSON.stringify([])); setUser([])}}><Link className='silver no-underline' to='/signin'>Sign Out</Link></p>
+                </>
+                :
+                <>
+                    <p className='f5 b link pt1 ph3 dim pointer'><Link className='silver no-underline' to='/signin'>Sign In</Link></p>
+                    <p className='f5 b link dim ph3 pt1 pointer'><Link className='silver no-underline' to='/register'>Register</Link></p>
+                </>
+                }   
+                
                 <p className='f6 pl3 pt2 avenir'>Flights:</p><p className='f6 ph2 b pt2 avenir'>{pilots}</p>
                 <p className='f6 ph3 pt2 avenir'>{dateTime}</p>
                 
@@ -29,26 +40,3 @@ const Navigation = ({dateTime, pilots}) => {
 
 export default Navigation;
 
-/*if (isSignedIn) {
-        return (
-        <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <p onClick={() => onRouteChange('signout')} className='f3 link dim black pa3 pointer'>Sign Out</p>
-        </nav>
-        );
-    } else {
-        return (
-        <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <p onClick={() => onRouteChange('signin')} className='f3 link dim black pa3 pointer'>Sign In</p>
-            <p onClick={() => onRouteChange('register')} className='f3 link dim black pa3 pointer'>Register</p>
-        </nav>          
-        );
-         <p onClick={()=> onRouteChange("signin")} className='f5 b link pt1 ph3 dim pointer'>Sign In</p>
-                <p onClick={()=> onRouteChange("register")} className='f5 b link dim ph3 pt1 pointer'>Register</p>
-    }     
-    
-    
-     <SearchBox />
-              
-                <FontAwesomeIcon className='silver pt2 f3 dim pointer' icon={faMagnifyingGlassLocation } />
-                
-                */
