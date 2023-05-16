@@ -15,7 +15,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
   useEffect(() => {
     let arrAirportLong;
     try {
-      fetch(`http://localhost:3001/airport/${arrIcao}`)
+      fetch(`https://tender-teal-panda.cyclic.app/${arrIcao}`)
       .then((response) => response.json())
       .then((responseData) => {
        
@@ -38,7 +38,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
       console.error(error.message)
   }
   try {
-      fetch(`http://localhost:3001/airport/${depIcao}`)
+      fetch(`https://tender-teal-panda.cyclic.app/${depIcao}`)
       .then((response) => response.json())
       .then((responseData) => { 
         console.log(responseData.lat_decimal)
