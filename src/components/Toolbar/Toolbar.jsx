@@ -3,10 +3,21 @@ import atc from '../../img/atc.svg';
 import glass from '../../img/glass.svg';
 import airplane from '../../img/airplane.svg';
 import airport from '../../img/airport1.svg';
+import { useMapEvents } from 'react-leaflet';
 
 
 const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsShown, airportsAreShown, setAirportsAreShown}) => {
 
+    //const [windowIsShown, setWindowIsShown] = useState(false);
+
+    const mapEvents = useMapEvents({
+        zoomend: () => {
+            localStorage.setItem('zoom', JSON.stringify(mapEvents.getZoom()));
+        },
+        moveend: () => {
+            localStorage.setItem('center', JSON.stringify([(mapEvents.getCenter()).lat, mapEvents.getCenter().lng]))
+        }
+    });
     
     return (
         <>
@@ -50,3 +61,4 @@ const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsSh
 }
 
 export default Toolbar;
+
