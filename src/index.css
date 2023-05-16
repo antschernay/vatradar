@@ -1,6 +1,7 @@
 html, body {
   height: 100vh;
   max-height: 100vh;
+  
 }
 
 body {
@@ -10,6 +11,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: '#c4cbd8' !important;
 
 
 }
@@ -110,9 +112,6 @@ code {
 }
 
 
-.leaflet-popup {
-	margin-bottom: 5px !important;
-	}
 
 .leaflet-popup-tip {
   display:none;
@@ -128,4 +127,41 @@ a.leaflet-popup-close-button{
   padding: 0px !important;
   font-size: 0.9em !important;
 }
+
+
+.airport-card {
+  width: 24em;
+}
+
+
+.half-card {
+  height: 35%;
+}
+
+
+.half-card-flights {
+  height: 12em;
+  max-height: 12em;
+  overflow-y: auto;
+}
+
+.half-card-flights::-webkit-scrollbar {
+  width: 0.6em;
+}
+
+.half-card-flights::-webkit-scrollbar-track {
+
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.half-card-flightsr::-webkit-scrollbar-thumb {
+  background-color: rgb(110, 110, 110);
+  outline: 1px solid slategrey;
+}
+
+
+.flights {
+  line-height: 0.6em;
+}
+
 
