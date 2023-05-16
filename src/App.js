@@ -71,7 +71,7 @@ function App() {
  
 
   async function fetchPilots(){
-    const data = await fetch("https://tender-teal-panda.cyclic.app")
+    const data = await fetch("https://tender-teal-panda.cyclic.app/")
     const pilots = await data.json();
     setPilots(pilots);
 
