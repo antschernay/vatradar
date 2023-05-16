@@ -1,5 +1,5 @@
 import React from "react";
-import { MapContainer, TileLayer} from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import Planes from "../Planes/Planes";
 import { useState } from 'react';
 import Toolbar from "../Toolbar/Toolbar";
@@ -8,7 +8,8 @@ import Airports from "../Airports/Airports";
 
 
 
-const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, airports}) => {
+const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, user, airports, zoom, center, controllers}) => {
+
     const [planesAreShown, setPlanesAreShown] = useState(true);
     const [panelIsShown, setPanelIsShown] = useState(false);
     const [airportsAreShown, setAirportsAreShown] = useState(false);
@@ -20,8 +21,10 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
 
     const handleAddPlane = (plane) => {
         const newValue = {"callsign": plane.callsign, "dep": plane.dep, "arr": plane.arr, "speed": plane.speed};
+      
     if (!selectedPlanes.some((value) => (value.callsign === newValue.callsign && value.dep === newValue.dep && value.arr === newValue.arr))) {
       setSelectedPlanes(previousArray => [...previousArray, newValue]);
+      
       
     }}
 
@@ -36,11 +39,11 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                                 selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
                                 selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane}
                                 accordionItem={accordionItem} setAccordionItem={setAccordionItem}
-                                selectedAirport={selectedAirport}/>
+                                selectedAirport={selectedAirport} controllers={controllers}/>
             }
 
-            <MapContainer center={[30, 0]} zoom={3} minZoom={2} scrollWheelZoom={true} zoomControl={false}
-                        style={{ width:'100vw', height:'100vh'}} > 
+            <MapContainer center={center} zoom={zoom} minZoom={2} scrollWheelZoom={true} zoomControl={false}
+                        style={{ width:'100vw', height:'100vh'}} onZoomEnd={e=>localStorage.setItem('zoom', JSON.stringify(e.target.getZoom()))} moveend={console.log('lk')} > 
                             
                 
                 <TileLayer
@@ -56,8 +59,9 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
              
                 {planesAreShown &&
                 
-                    <Planes pilots={pilots} handleAddPlane={handleAddPlane} selectedFlight={selectedFlight} 
-                                setSelectedFlight={setSelectedFlight} setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown}/> 
+                    <Planes pilots={pilots} selectedFlight={selectedFlight} user={user} handleAddPlane={handleAddPlane}
+                                setSelectedFlight={setSelectedFlight} setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown}
+                            /> 
 
                 }
 
@@ -75,6 +79,16 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
         </>
     )
 }
+export default React.memo(Home, (prevProps, nextProps) => {
+
+    if (prevProps.pilots !== nextProps.pilots || prevProps.airports !== nextProps.airports || prevProps.user !== nextProps.user ||
+        prevProps.selectedAirports !== nextProps.selectedAirports || prevProps.selectedPlanes !== nextProps.selectedPlanes ||
+        prevProps.zoom !== nextProps.zoom || prevProps.center !== nextProps.center) {
+            return false
+        }
+    else return true;
+});
+
 
 export default React.memo(Home, (prevProps, nextProps) => {
 
