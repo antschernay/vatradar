@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp, faXmark, faLocationDot, faGripLines, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faXmark, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import inAir from '../../img/inair4.svg';
 import standing from '../../img/standing3.svg';
 import landing from '../../img/landing2.svg';
@@ -12,7 +11,7 @@ import FlightInfo from './FlightInfo';
 
 const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handleFunction, setSelectedPlanes, cardType, selectedFlight, setSelectedFlight}) => {
 
-
+        
     const getDistance = (lat1, lon1, lat2, lon2) => {
         const earthRadiusKm = 6371; // Radius of the earth in kilometers
         const dLat = deg2rad(lat2-lat1);
@@ -32,57 +31,25 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
       }
   
 
-      const calculateArrivalTime = (distance, speed) => {
-        // Calculate the estimated arrival time in hours
-        if (speed===0) {
-            return 0;
-        }
-        const arrivalTime = 60 * distance / speed;
-
-        // Return the estimated arrival time in minutes
-        return arrivalTime;
-      };
-
-
-      const getArrivalTime = (mins, distance) => {
-       if (mins===0) {
-            if (distance < 20) {
-                return 'ARRIVD';
-            }
-            else return 'DEPART';
-        }
-        // Get the current GMT time
-        let gmtTime = new Date();
-      
-        // Add the specified number of minutes to the GMT time
-        let newTime = new Date(gmtTime.getTime() + mins * 60000);
-      
-        // Extract the hours and minutes components of the new time
-        let hours = newTime.getUTCHours().toString().padStart(2, '0');
-        let minutes = newTime.getUTCMinutes().toString().padStart(2, '0');
-      
-        // Return the new time in "hh:mm" format
-        return `${hours}:${minutes}Z`;
-      }
-
+    
 
 
     return (
         <div>
         {
         planes.map((plane) => {
+            const filteredPilots = pilots.filter((pilot) => pilot.callsign === plane.callsign && accordionItem === plane.callsign);
             return (
-                <>          
-                    <div className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#777777' :'#71967E'}}>
+                <>       
+                
+                    <div key={plane.callsign} className=" ba b--silver w-100 mt2" style={{backgroundColor: plane.callsign===selectedFlight.callsign ?'#777777' :'#71967E'}}>
                         <div className="flex justify-between">
                             <div className='flex'>
                                 {cardType !== "normal" ?
                                 <div className='flex br b--silver tc pa2 items-center'>
                                     {pilots.map((pilot) => {
                                         if (plane.callsign===pilot.callsign && cardType === "arrival"){
-                                             return <p className="code f6 white ma0">{getArrivalTime(calculateArrivalTime
-                                                (getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir), pilot.speed),
-                                                 getDistance(pilot.lat, pilot.lon, plane.latAir, plane.lonAir))}</p>
+                                            return <p className="code f6 white ma0">{plane.estTime==='000000'? 'ARRIVD':plane.estTime}</p>
                                     }})}
 
                                         
@@ -103,7 +70,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                 if (plane.callsign===pilot.callsign && cardType !== "normal") {
                                     
                                     if (pilot.speed < 5) {
-                                        return  <img className='ph2 o-90' src={standing} alt="glass" width="17" height="17"></img>
+                                        return  <img className='ph2 o-80' src={standing} alt="glass" width="17" height="17"></img>
                                     }
                                     else if (pilot.speed < 150 && cardType==="arrival" ) {
                                        
@@ -120,7 +87,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                         else return <img className='ph2 o-80' src={landing} alt="glass" width="17" height="17"></img>
                                     }
                         
-                                    else return <img className='ph2 o-90' src={inAir} alt="glass" width="17" height="17"></img>
+                                    else return <img className='ph2 o-80' src={inAir} alt="glass" width="17" height="17"></img>
                                 }
                             })}
                             
@@ -135,32 +102,29 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                     onClick={()=> setAccordionItem("")} />
                                     :
                                     <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faCaretDown} 
-                                    onClick={()=> setAccordionItem(plane.callsign)
-                                    
-                                    } />
+                                    onClick={()=> setAccordionItem(plane.callsign)} />
                                 }
-                                {cardType==="normal" ? <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
+                                {cardType==="normal" ?
+                                    <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
                                     onClick={()=> handleFunction(planes, plane, setSelectedPlanes)}/>
-                                    : <img className='dib pointer' src={pin} alt="pin" width="20" height="20"
-                                        onClick={()=> handleFunction(plane)}></img>
-                                }
+                                    : 
+                                    <img className='dib pointer' src={pin} alt="pin" width="20" height="20" 
+                                    onClick={()=> {handleFunction(plane)}}/>
+                                    }
+                                    
                               
                             </div>
                         </div>
                     </div>
                     
                     
-                    {pilots.map((pilot) => {
-                        if (pilot.callsign===plane.callsign && accordionItem===plane.callsign ){ 
-                            return (
-                            <>
-                            
+                    
+                    {filteredPilots.length > 0 && (
+                        
+                        filteredPilots.map((pilot) => (
                             <FlightInfo pilot={pilot} getDistance={getDistance} />
-                           
-                            </>)
-                        }
-
-                    })}
+                        ))
+                    )}
 
                         
                 </>
@@ -173,5 +137,11 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
     )
 };
 
-export default React.memo(SelectedPlanes);
+export default React.memo(SelectedPlanes, (prevProps, nextProps) => 
+    {if (prevProps.pilots !== nextProps.pilots || prevProps.planes !== nextProps.planes || prevProps.handleFunction !== nextProps.handleFunction ||
+    prevProps.accordionItem !== nextProps.accordionItem || prevProps.selectedFlight !== nextProps.selectedFlight) {
+    return false;
+}
+return true;
+});;
 
