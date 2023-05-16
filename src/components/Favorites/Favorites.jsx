@@ -39,7 +39,7 @@ const Favorites = ({userId, pilots}) => {
     }, [updatedRow]);
 
 
-    const handleAddAirport = (icao) => {
+        const handleAddAirport = (icao) => {
         try {
             fetch('https://tender-teal-panda.cyclic.app/addToFavorites', {
                 method: 'post',
@@ -49,9 +49,7 @@ const Favorites = ({userId, pilots}) => {
                     icao_code : icao
                 })
             })
-            .then(response => response.json())
-            .then(console.log(updatedRow))
-            .then(row=> setUpdatedRow(row))
+            .then(response=> setUpdatedRow(response))
 
        } catch (error) {
             setError('This airport could not be added.')
@@ -71,9 +69,7 @@ const Favorites = ({userId, pilots}) => {
                     icao_code : icao
                 })
             })
-            .then(response => response.json())
-            .then(console.log(updatedRow))
-            .then(row=> setUpdatedRow(row))
+            .then(response=> setUpdatedRow(response))
 
        } catch (error) {
             setError('This airport could not be removed.')
