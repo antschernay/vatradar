@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
-import { Polyline} from 'react-leaflet';
-import "leaflet-rotatedmarker";
-
+import { Polyline } from "react-leaflet";
 
 
 const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
-
 
   
   const [arrAirportLat, setArrAirportLat] = useState(lat);
@@ -14,10 +11,11 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
   const [depAirportLat, setDepAirportLat] = useState(lat);
   const [depAirportLon, setDepAirportLon] = useState(lon);
 
+  
   useEffect(() => {
     let arrAirportLong;
     try {
-      fetch(`https://tender-teal-panda.cyclic.app/airport/${arrIcao}`)
+      fetch(`http://localhost:3001/airport/${arrIcao}`)
       .then((response) => response.json())
       .then((responseData) => {
        
@@ -40,7 +38,7 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
       console.error(error.message)
   }
   try {
-      fetch(`https://tender-teal-panda.cyclic.app/airport/${depIcao}`)
+      fetch(`http://localhost:3001/airport/${depIcao}`)
       .then((response) => response.json())
       .then((responseData) => { 
         console.log(responseData.lat_decimal)
@@ -54,20 +52,30 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
         else {
         setDepAirportLat(responseData.lat_decimal);
         setDepAirportLon(responseData.lon_decimal);
+
         if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon < -50) {
-         
-          setDepAirportLon(responseData.lon_decimal - 360);
-          
+
+            setDepAirportLon(responseData.lon_decimal - 360)
         }
-        else if (responseData.lon_decimal > 100 && arrAirportLong < -50) {
+
+        else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon < -50){
+         
+          setArrAirportLon(arrAirportLong - 360);
+        }
+
+        else if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon > 100) {
+
+          setArrAirportLon(arrAirportLong + 360);
+
+        }
+
+        else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon > 100) {
           
-          setArrAirportLon(arrAirportLong + 360)
+          setDepAirportLon(responseData.lon_decimal + 360)
           
         }
        
-        else if (responseData.lon_decimal < -50 && arrAirportLong > 100){
-          setArrAirportLon(arrAirportLong -360)
-        }
+        
         }
       })
       
@@ -77,7 +85,6 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
       console.log(error)
   }
   }, []);
-
  
     
     
@@ -96,6 +103,5 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
 
 
 export default Trajectory;
-
 
 
