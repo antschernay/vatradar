@@ -7,7 +7,7 @@ import pin from '../../img/pin1.svg';
 
 
 const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, selectedFlight,
-    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport} ) => {
+    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport, controllers} ) => {
 
     const [airports, setAirports] = useState([]);
     const [searchField, setSearchField] = useState("");
@@ -40,16 +40,24 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
     const handleDelete = (array, item, event) => {
         const newItems = array.filter((plane) => plane !== item);
         event(newItems);
+        if (item.city) {
+            localStorage.setItem("selectedAirports", JSON.stringify(newItems))
+        }
     }
 
     
 
     const handleAdd = (array, item, event) => {
-        console.log(array)
         if (!array.some(value => value.icao_code === item.icao_code)) {
-        event(prevArray => [...prevArray, item])
-        } 
-      }
+          event(prevArray => {
+            const newArray = [...prevArray, item];
+            if (item.city) {
+              localStorage.setItem("selectedAirports", JSON.stringify(newArray));
+            }
+            return newArray;
+          });
+        }
+      };
 
     return (
         <>
@@ -70,7 +78,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     accordionItem={accordionItem} setAccordionItem={setAccordionItem}
                                     handleDelete={handleDelete} setSelectedAirports={setSelectedAirports} 
                                     selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}
-                                    handleAddPlane={handleAddPlane} selectedAirport={selectedAirport}
+                                    handleAddPlane={handleAddPlane} selectedAirport={selectedAirport} controllers={controllers}
                                     />
               
 
@@ -85,7 +93,8 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
                                             <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
-                                                     onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
+                                                     onClick={()=> {handleAdd(selectedAirports, airport, setSelectedAirports);setAccordionItem(airport.icao_code)
+                                                       }}/>
                                         </div>
                                     );
                                 })
@@ -100,7 +109,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                     <div className="pa2 ba b--silver bg-transparent flex justify-between w-100 mt2">
                                         <p className="code f6 white ma0"><b>{plane.callsign}</b>, {plane.dep} - {plane.arr}</p>
                                         <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
-                                                     onClick={()=> handleAddPlane(plane)}/>
+                                                     onClick={()=> {handleAddPlane(plane); setAccordionItem(plane.callsign)}}/>
                                     
                                     </div>
                                 );
@@ -115,7 +124,8 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                                         <div className="pa2 ba b--silver flex justify-between bg-transparent w-100 mt2">
                                             <p className="code f6 white ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
                                             <img className='dib pointer' src={pin} alt="glass" width="20" height="20" 
-                                                onClick={()=> handleAdd(selectedAirports, airport, setSelectedAirports)}/>
+                                                onClick={()=> {handleAdd(selectedAirports, airport, setSelectedAirports); setAccordionItem(airport.icao_code)
+                                                                }}/>
                                             
                                         </div>
                                     );
@@ -138,4 +148,5 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 
 export default SearchPanel;
+
 
