@@ -13,7 +13,7 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
-            fetch('https://tender-teal-panda.cyclic.app/register', {
+            fetch('http://localhost:3001/register', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -23,8 +23,8 @@ const Register = () => {
                 })
             })
             .then(response => response.json())
-            .then(user => {
-                if (user.user_id) {
+            .then(response => {
+                if (response==='User registered successfully!') {
                     navigate('/signin', { replace: true })
                 } 
                 else setError('This email address is already used.')
