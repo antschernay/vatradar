@@ -41,7 +41,7 @@ const Favorites = ({userId, pilots}) => {
 
         const handleAddAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/addToFavorites/${userId}', {
+            fetch('https://tender-teal-panda.cyclic.app/addToFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -61,7 +61,7 @@ const Favorites = ({userId, pilots}) => {
 
     const handleRemoveAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/removeFromFavorites/${userId}', {
+            fetch('https://tender-teal-panda.cyclic.app/removeFromFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
