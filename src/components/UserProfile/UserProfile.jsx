@@ -16,7 +16,7 @@ const UserProfile = ({user, setUser}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
-            fetch('http://localhost:3001/profile', {
+            fetch('https://tender-teal-panda.cyclic.app/profile', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
