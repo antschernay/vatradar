@@ -13,7 +13,7 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
-            fetch('http://localhost:3001/register', {
+            fetch('https://tender-teal-panda.cyclic.app/register', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
