@@ -256,6 +256,9 @@ a.leaflet-popup-close-button{
   .airport-card {
     width: 100% !importnat;
   }
+  .fav-airports {
+    width: 95%;
+  }
 
 
 }
