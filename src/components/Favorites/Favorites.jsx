@@ -39,7 +39,7 @@ const Favorites = ({userId, pilots}) => {
     }, [updatedRow]);
 
 
-        const handleAddAirport = (icao) => {
+    const handleAddAirport = (icao) => {
         try {
             fetch('https://tender-teal-panda.cyclic.app/addToFavorites', {
                 method: 'post',
@@ -50,6 +50,7 @@ const Favorites = ({userId, pilots}) => {
                 })
             })
             .then(response=> setUpdatedRow(response))
+            .then(setSearchField(""))
 
        } catch (error) {
             setError('This airport could not be added.')
@@ -80,9 +81,9 @@ const Favorites = ({userId, pilots}) => {
 
 
     return (
-        <>
-            <div className="center w-50 code mt6 mb3">
-                <div className="mt6">
+        <div className="pt6">
+            <div className="center w-50 code mb3">
+                <div>
                         <input
                             className="pa2 input-reset ba white bg-near-black o-70 w-100" 
                             type='text' 
@@ -98,7 +99,7 @@ const Favorites = ({userId, pilots}) => {
                         <div className="pa2 br bb bl b--silver flex justify-between bg-transparent w-100 items-center ph3">
                             <p className="code f6 black ma0"><b>{airport.icao_code}</b>, {airport.city}, {airport.name}</p>
                             <div className="ba b--silver ph4 pointer flex justify-around items-center pa1" style={{backgroundColor: '#4ea86c'}}
-                                onClick={()=> handleAddAirport(airport.icao_code)}>
+                                onClick={()=> {handleAddAirport(airport.icao_code); console.log(updatedRow)}}>
                                 <FontAwesomeIcon className='white dib f7 pr2' icon={faStar} ></FontAwesomeIcon>
                                 <p className="code f7 white ma0 b lh-copy">Favorite</p>
 
@@ -116,7 +117,7 @@ const Favorites = ({userId, pilots}) => {
             <FavoritesList favAirports={favAirports} pilots={pilots} handleRemove={handleRemoveAirport}/>
             
 
-        </>
+        </div>
     )
 
 
@@ -125,5 +126,4 @@ const Favorites = ({userId, pilots}) => {
 
 
 export default Favorites;
-
 
