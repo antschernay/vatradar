@@ -1,10 +1,11 @@
 import React from "react";
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import Planes from "../Planes/Planes";
 import { useState } from 'react';
 import Toolbar from "../Toolbar/Toolbar";
 import SearchPanel from "../SearchPanel/SearchPanel";
 import Airports from "../Airports/Airports";
+import Atc from "../Atc/Atc";
 
 
 
@@ -16,6 +17,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     const [accordionItem, setAccordionItem] = useState("");
     const [selectedFlight, setSelectedFlight] = useState([]);
     const [selectedAirport, setSelectedAirport] = useState([]);
+    const [atcAreShown, setAtcAreShown] = useState(false);
     
 
 
@@ -33,7 +35,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
 
     return( 
         <>
-        <div className="flex">
+        <div className="flex home">
             {panelIsShown &&
                 <SearchPanel pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes}
                                 selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
@@ -43,7 +45,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
             }
 
             <MapContainer center={center} zoom={zoom} minZoom={2} scrollWheelZoom={true} zoomControl={false}
-                        style={{ width:'100vw', height:'100vh'}} onZoomEnd={e=>localStorage.setItem('zoom', JSON.stringify(e.target.getZoom()))} moveend={console.log('lk')} > 
+                        style={{ width:'100vw', height:'100vh'}} > 
                             
                 
                 <TileLayer
@@ -55,7 +57,8 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
 
                 <Toolbar planesAreShown={planesAreShown} setPlanesAreShown={setPlanesAreShown} 
                          panelIsShown={panelIsShown} setPanelIsShown={setPanelIsShown}
-                         airportsAreShown={airportsAreShown} setAirportsAreShown={setAirportsAreShown} />
+                         airportsAreShown={airportsAreShown} setAirportsAreShown={setAirportsAreShown} 
+                         atcAreShown={atcAreShown} setAtcAreShown={setAtcAreShown}/>
              
                 {planesAreShown &&
                 
@@ -69,6 +72,13 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                     <Airports airports={airports} selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
                               setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown} selectedAirport={selectedAirport} 
                               setSelectedAirport={setSelectedAirport}/>
+                }
+
+                {atcAreShown &&
+                <Atc airports={airports} selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
+                    setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown} selectedAirport={selectedAirport} 
+                    setSelectedAirport={setSelectedAirport} />
+
                 }
                 
                 
