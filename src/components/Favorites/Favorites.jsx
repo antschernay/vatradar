@@ -82,7 +82,7 @@ const Favorites = ({userId, pilots}) => {
 
     return (
         <div className="pt6">
-            <div className="center w-50 code mb3">
+            <div className="center w-50 code mb3 fav-airports">
                 <div>
                         <input
                             className="pa2 input-reset ba white bg-near-black o-70 w-100" 
