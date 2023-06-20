@@ -56,15 +56,23 @@ function App() {
      
     }
     setLoading(false);
-  }, []);
+  }, [user]);
   
 
 
   
-  React.useEffect(() => {
+  useEffect(() => {
     const intervalId = setInterval(() => {
-      setTime(new Date().toUTCString());
+      const dateObject = new Date();
+      const day = dateObject.getUTCDate();
+      const month = dateObject.toLocaleString("en-US", { month: "short" });
+      const hours = dateObject.getUTCHours().toString().padStart(2, "0");
+      const minutes = dateObject.getUTCMinutes().toString().padStart(2, "0");
+
+      const outputString = `${day} ${month} ${hours}:${minutes} Zulu`;
+      setTime(outputString);
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, []);
 
@@ -129,3 +137,4 @@ function App() {
 
 
 export default App;
+
