@@ -9,7 +9,7 @@ const Departures = ({departures}) => {
         <p className="b f5 mt2 ">Departures ({departures.length})</p>
 
         {departures.map((flight) => {
-            return <p className="f6 flights"><b>{flight.deptime.slice(0, 2)}:{flight.deptime.slice(2)}Z</b> to <b>{flight.to}</b></p>
+            return <p className="f6 flights"><b>{flight.estTime} to {flight.to}</b></p>
         })}
        
         
