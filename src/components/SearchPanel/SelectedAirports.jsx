@@ -1,9 +1,10 @@
 import React from 'react';
+import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import AirportInfo from './AirportInfo';
 
-const SelectedAirports = ({airports, pilots, accordionItem, setAccordionItem, handleDelete, setSelectedAirports, selectedFlight, setSelectedFlight, handleAddPlane, selectedAirport}) => {
+const SelectedAirports = ({airports, pilots, accordionItem, setAccordionItem, handleDelete, setSelectedAirports, selectedFlight, setSelectedFlight, handleAddPlane, selectedAirport, controllers}) => {
 
     return (
         <div>
@@ -28,14 +29,15 @@ const SelectedAirports = ({airports, pilots, accordionItem, setAccordionItem, ha
                                     onClick={()=> {setAccordionItem(airport.icao_code); console.log(airport)}}  />
                                 }
                                 <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
-                                    onClick={()=> handleDelete(airports, airport, setSelectedAirports)}/>
+                                    onClick={()=> {handleDelete(airports, airport, setSelectedAirports)}
+                                            }/>
                             </div>
                         </div>
                     </div>
                     
                     {accordionItem===airport.icao_code ? 
                         
-                            <AirportInfo airport={airport} pilots={pilots} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane}/>
+                            <AirportInfo airport={airport} pilots={pilots} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane} controllers={controllers}/>
                         
                     : null
 
