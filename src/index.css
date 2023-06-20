@@ -254,7 +254,7 @@ a.leaflet-popup-close-button{
     display: block !important;
   }
   .airport-card {
-    width: 92%;
+    width: 95% !importnat;
   }
 
 
