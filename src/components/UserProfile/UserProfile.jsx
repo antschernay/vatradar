@@ -78,7 +78,7 @@ const UserProfile = ({user, setUser}) => {
                     </fieldset>
                     <div className="tc">
                     <input                         
-                        className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                        className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib black"
                         type="submit" value="Apply Changes" onClick={handleSubmit}
                     />
                     </div>
