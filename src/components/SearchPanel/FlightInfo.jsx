@@ -11,13 +11,13 @@ const FlightInfo = ({pilot, getDistance}) => {
     const [status, setStatus] = useState("");
 
 
-
+   
     useEffect(()=>{
+
         try {
             fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.arr}`)
             .then((response) => response.json())
             .then((responseData) => {
-             
                 setArr(responseData);
             })
         } 
@@ -29,21 +29,22 @@ const FlightInfo = ({pilot, getDistance}) => {
             fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.dep}`)
             .then((response) => response.json())
             .then((responseData) => {
-                
+                console.log("data was sent")
                 setDep(responseData);
             })
         } catch (error) {
             
             console.log(error)
         }
-    },[]);
+    },[pilot.arr, pilot.dep]);
+
 
 
     useEffect(() => {
         
     
         const getStatus = (speed, latOfPlane, lonOfPlane, latOfAirport, lonOfAirport) => {
-            
+            console.log("status was called")
             if (latOfAirport==="Nan" || lonOfAirport==="NaN") {
                 return setStatus("N/A");
             }
@@ -77,53 +78,58 @@ const FlightInfo = ({pilot, getDistance}) => {
     
         }
         getStatus(pilot.speed, pilot.lat, pilot.lon, arr.lat_decimal, arr.lon_decimal);
+
     }, [pilot.speed, arr.city]);
 
 
     return(
         <>
-             <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#2B523D'}}>
-                   
-                        <div className='w-50 tc bb b--silver items-center'>
-                            <p className='f6 mb0'>From</p>
-                            <p className='f6 mt1 mb2'><b>{pilot.dep}</b> ({dep.city})</p>
-                        </div>
-                        
-                        <div className='w-50 tc bl bb b--silver items-center'>
-                            
-                            <p className='f6 mb0'>To</p>
-                            <p className='f6 mt1 mb2'><b>{pilot.arr}</b> ({arr.city})</p>
-                        </div>
-               
-                   
+            <div className='flex justify-center white br bl b--silver w-100' style={{backgroundColor:'#2B523D'}}>
                     
+                    <div className='w-50 tc bb b--silver items-center'>
+                        <p className='f6 mb0'>From</p>
+                        <p className='f6 mt1 mb2'><b>{pilot.dep}</b> ({dep.city})</p>
+                    </div>
+                
+                    <div className='w-50 tc bl bb b--silver items-center'>
+                        
+                        <p className='f6 mb0'>To</p>
+                        <p className='f6 mt1 mb2'><b>{pilot.arr}</b> ({arr.city})</p>
+                    </div>
+                
+                
+                
             </div>
+          
             <div className='pa2 br bl bb b--silver w-100' style={{backgroundColor:'#2B523D'}}>
                 
-                <table className='tl'>
-                    <th className='b white f6'>
-                        <tr>
-                            <td>Name</td>
-                            <td className='fw1 pl2'>{pilot.name}</td>
-                        </tr>
-                        <tr>
-                            <td>Status</td>
-                            <td className='fw1 pl2'>{status}</td>
-                        </tr>
-                        <tr>
-                            <td>Speed</td>
-                            <td className='fw1 pl2'>{pilot.speed} kt</td>
-                        </tr>
-                        <tr>
-                            <td>Altitude</td>
-                            <td className='fw1 pl2'>{pilot.alti} ft</td>
-                        </tr>
-                        <tr>
-                            <td>Aircraft</td>
-                            <td className='fw1 pl2'>{pilot.aircraft}</td>                                       
-                        </tr>
-                    </th>
-                                                                                
+                <table className='tl pa1'>
+                 
+                      
+                        <tbody className='b white f6'>
+                            <tr>
+                                <td>Name</td>
+                                <td className='fw1 pl2'>{pilot.name}</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td className='fw1 pl2'>{status}</td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td className='fw1 pl2'>{pilot.speed} kt</td>
+                            </tr>
+                            <tr>
+                                <td>Altitude</td>
+                                <td className='fw1 pl2'>{pilot.alti} ft</td>
+                            </tr>
+                            <tr>
+                                <td>Aircraft</td>
+                                <td className='fw1 pl2'>{pilot.aircraft}</td>                                       
+                            </tr>
+                        </tbody>
+                      
+                  
                 </table>
             <div className='flex justify-around'>
                 <div className='' onClick={()=> setIsExpanded(!isExpanded)}>
@@ -134,8 +140,9 @@ const FlightInfo = ({pilot, getDistance}) => {
             {isExpanded && 
             <>
             
-                <table className='tl white'>
-                    <th className='f7 pr2'>
+                <table className='tl white pa1'>
+                   
+                    <tbody className='b white f7'>
                         <tr>
                             <td>Transponder</td>
                             <td className='fw1 pl2'>{pilot.transp}</td>
@@ -148,11 +155,11 @@ const FlightInfo = ({pilot, getDistance}) => {
                             <td>EnrouteTime</td>
                             <td className='fw1 pl2'>{pilot.en_time}</td>
                         </tr>                                  
-                        
-                    </th>                                                             
+                   
+                    </tbody>                                                            
                 </table> 
-                <p className="code f7 white mt1 ml1"><b>Route:</b> {pilot.route}</p>
-                <p className="code f7 white mt1 ml1"><b>Remarks:</b> {pilot.remarks}</p>
+                <p className="code f7 white mt1 ml1 ph1"><b>Route:</b> {pilot.route}</p>
+                <p className="code f7 white mt1 ml1 ph1"><b>Remarks:</b> {pilot.remarks}</p>
                 </>
             }  
                         
@@ -163,8 +170,11 @@ const FlightInfo = ({pilot, getDistance}) => {
   };
 
 
-export default React.memo(FlightInfo);
-  
+export default React.memo(FlightInfo, (prevProps, nextProps)=> {
+
+    return prevProps.pilot.arr === nextProps.pilot.arr;
+
+});
 
 
 
