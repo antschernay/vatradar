@@ -124,7 +124,7 @@ const FavoritesList = ({favAirports, pilots, handleRemove}) => {
      return (
         <>
 
-    <div className="flex flex-wrap mt4 code w-80 justify-center center pb5">
+    <div className="flex flex-wrap mt4 code w-80 justify-center center pb5 fav-airports">
 
         {favAirports.map((airport) => {
 
