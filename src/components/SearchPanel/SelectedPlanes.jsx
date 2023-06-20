@@ -53,7 +53,7 @@ const SelectedPlanes = ({planes, pilots, accordionItem, setAccordionItem, handle
                                     }})}
 
                                         
-                                    {cardType==="departure" && <p className="code f6 white ma0">{plane.deptime.slice(0, 2)}:{plane.deptime.slice(2)}Z</p>}
+                                    {cardType==="departure" && <p className="code f6 white ma0">{plane.estTime}</p>}
                                 </div> 
                                 : null}
                             
@@ -144,4 +144,5 @@ export default React.memo(SelectedPlanes, (prevProps, nextProps) =>
 }
 return true;
 });;
+
 
