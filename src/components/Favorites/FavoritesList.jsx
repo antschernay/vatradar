@@ -6,10 +6,62 @@ import Departures from "./Departures";
 
 const FavoritesList = ({favAirports, pilots, handleRemove}) => {
 
+    const getDistance = (lat1, lon1, lat2, lon2) => {
+        const earthRadiusKm = 6371; // Radius of the earth in kilometers
+        const dLat = deg2rad(lat2-lat1);
+        const dLon = deg2rad(lon2-lon1);
+        const a = 
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2); 
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        const distance = earthRadiusKm * c; // Distance in km
+      
+        return distance*0.54;
+      }
+      
+      const deg2rad = (deg) => {
+        return deg * (Math.PI/180)
+      }
+  
+
+      const calculateArrivalTime = (distance, speed) => {
+        // Calculate the estimated arrival time in hours
+        if (speed===0) {
+            return 0;
+        }
+        const arrivalTime = 60 * distance / speed;
+
+        // Return the estimated arrival time in minutes
+        return arrivalTime;
+      };
+
+
+      const getArrivalTime = (mins, distance) => {
+        if (mins===0) {
+            if (distance < 20) {
+                return '000000';
+            }
+            else return 'DEPART';
+        }
+        // Get the current GMT time
+        let gmtTime = new Date();
+      
+        // Add the specified number of minutes to the GMT time
+        let newTime = new Date(gmtTime.getTime() + mins * 60000);
+      
+        // Extract the hours and minutes components of the new time
+        let hours = newTime.getUTCHours().toString().padStart(2, '0');
+        let minutes = newTime.getUTCMinutes().toString().padStart(2, '0');
+      
+        // Return the new time in "hh:mm" format
+        return `${hours}:${minutes}Z`;
+      };
+
     
     const getWeather = (icao) => {
         try {
-            fetch(`https://tender-teal-panda.cyclic.app/weather/${icao}`)
+            fetch(`http://localhost:3001/weather/${icao}`)
             .then((response) => response.json())
             .then((responseData) => {
               
@@ -28,20 +80,38 @@ const FavoritesList = ({favAirports, pilots, handleRemove}) => {
         let arrivals = [];
         pilots.map((pilot) => {
             if (pilot.arr === icao) {
-                arrivals = [...arrivals, {"from":pilot.dep, "lat": pilot.lat, "lon": pilot.lon, "latAir": latAir, "lonAir": lonAir, "speed": pilot.speed}]
-            }
-        })
+                arrivals = [...arrivals, {"from":pilot.dep, "estTime": getArrivalTime(calculateArrivalTime
+                    (getDistance(pilot.lat, pilot.lon, latAir, lonAir), pilot.speed),
+                    getDistance(pilot.lat, pilot.lon, latAir, lonAir))}]
+                    .sort((a, b) => (a.estTime < b.estTime ? -1 : 1))
+                }
+            })
+            
+        
       
         return arrivals;
 
     }
+
+    const getDepartTime = (distance, speed, depTime) => {
+        if (distance > 5 && speed > 20) {
+            return "ENROUT"
+        }
+        else return `${depTime.slice(0, 2)}:${depTime.slice(2)}Z`;
+
+
+      }
+
+
        
     
-    const getDepartures = (icao) => {
+    const getDepartures = (icao, latAir, lonAir) => {
         let departures = [];
         pilots.map((pilot) => {
             if (pilot.dep === icao) {
-                departures = [...departures, {"to": pilot.arr, "deptime": pilot.deptime}]
+                departures = [...departures, {"to": pilot.arr, "estTime": getDepartTime(
+                getDistance(pilot.lat, pilot.lon, latAir, lonAir), pilot.speed, pilot.deptime)}]
+                .sort((a, b) => (a.estTime < b.estTime ? -1 : 1))
             }
         })
 
@@ -80,7 +150,7 @@ const FavoritesList = ({favAirports, pilots, handleRemove}) => {
                         </div>
                         <div className="w-50 ml1 ph2 ba b--silver half-card-flights" style={{background: "#707479"}}>
                            
-                            <Departures departures={getDepartures(airport.icao_code)}/>
+                            <Departures departures={getDepartures(airport.icao_code, airport.lat_decimal, airport.lon_decimal)}/>
                
                             
                             
@@ -100,7 +170,7 @@ const FavoritesList = ({favAirports, pilots, handleRemove}) => {
 
         </>
      )
-
+    
 
 
 }
