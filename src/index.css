@@ -257,7 +257,7 @@ a.leaflet-popup-close-button{
     width: 100% !importnat;
   }
   .fav-airports {
-    width: 95%;
+    width: 95% !important;
   }
 
 
