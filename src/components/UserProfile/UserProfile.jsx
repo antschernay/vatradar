@@ -7,11 +7,9 @@ import { useNavigate } from "react-router-dom";
 const UserProfile = ({user, setUser}) => {
 
     const [name, setName] = useState(user.name);
-    const emailRef = useRef()
-    const passwordRef = useRef()
     const [cid, setCid]= useState(user.cid);
     const [message, setMessage] = useState('');
-    const navigate = useNavigate();
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -40,7 +38,8 @@ const UserProfile = ({user, setUser}) => {
     }
 
     return  (
-        <article className="br3 ba b--black-10 mv6 w-100 w-50-m w-25-l mw6 shadow-5 center">
+        <div className='pt6'>
+        <article className="br3 ba b--black-10 w-100 w-50-m w-25-l shadow-5 center">
             <main className="pa4 black-80">
                 <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -87,6 +86,7 @@ const UserProfile = ({user, setUser}) => {
                 </div>
             </main>
         </article>
+        </div>
     )
 }
 
