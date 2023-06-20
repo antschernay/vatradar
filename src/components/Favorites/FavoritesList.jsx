@@ -61,7 +61,7 @@ const FavoritesList = ({favAirports, pilots, handleRemove}) => {
     
     const getWeather = (icao) => {
         try {
-            fetch(`http://localhost:3001/weather/${icao}`)
+            fetch(`https://tender-teal-panda.cyclic.app/weather/${icao}`)
             .then((response) => response.json())
             .then((responseData) => {
               
