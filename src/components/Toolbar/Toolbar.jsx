@@ -6,9 +6,10 @@ import airport from '../../img/airport1.svg';
 import { useMapEvents } from 'react-leaflet';
 
 
-const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsShown, airportsAreShown, setAirportsAreShown}) => {
+const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsShown, 
+                    airportsAreShown, setAirportsAreShown, atcAreShown, setAtcAreShown}) => {
 
-    //const [windowIsShown, setWindowIsShown] = useState(false);
+
 
     const mapEvents = useMapEvents({
         zoomend: () => {
@@ -50,8 +51,15 @@ const Toolbar = ({ planesAreShown, setPlanesAreShown, panelIsShown, setPanelIsSh
                             onClick={()=> setAirportsAreShown(!airportsAreShown)}/>
                     }
 
-                    <img className='pa2 pointer br3' src={atc} alt="atc" width="27" height="27"
-                            />
+                    {atcAreShown ?
+                        <img className='pa2 pointer mh2 bg-white br3' src={atc} alt="atc" width="27" height="27"
+                            onClick={()=> setAtcAreShown(!atcAreShown)}/>
+                        :
+                        <img className='pa2 pointer mh2 br3' src={atc} alt="atc" width="27" height="27"
+                            onClick={()=> setAtcAreShown(!atcAreShown)}/>
+                    }
+
+                   
                     
                 </div>
                 
