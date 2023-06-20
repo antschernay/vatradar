@@ -71,6 +71,15 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
         return `${hours}:${minutes}Z`;
       }
 
+      const getDepartTime = (distance, speed, depTime) => {
+        if (distance > 5 && speed > 20) {
+            return "ENROUT"
+        }
+        else return `${depTime.slice(0, 2)}:${depTime.slice(2)}Z`;
+
+
+      }
+
 
 
       const getControllers = (icao) => {
@@ -103,7 +112,9 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
                 
             }
             if (pilot.dep===airport.icao_code) {
-                return setDepartures(departures => [...departures, {...pilot, "latAir": airport.lat_decimal, "lonAir": airport.lon_decimal}].sort((a, b) => (a.deptime < b.deptime ? -1 : 1)))
+                return setDepartures(departures => [...departures, {...pilot, "latAir": airport.lat_decimal, "lonAir": airport.lon_decimal, 
+                "estTime": getDepartTime(getDistance(pilot.lat, pilot.lon, airport.lat_decimal, airport.lon_decimal), pilot.speed, pilot.deptime)}]
+                .sort((a, b) => (a.estTime < b.estTime ? -1 : 1)))
             }
         });
     }, [pilots])
@@ -154,7 +165,7 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
                     </tbody>                                                             
                 </table> 
                     <p className="code f6 ml1 b white underline ">ATC</p>
-                       
+                        <Controllers controllers={getControllers(airport.icao_code)}/>
                     <p className="code f6 ml1 b white underline ">Arrivals</p>
                         <SelectedPlanes planes={arrivals} pilots={pilots} accordionItem={accordionFlight} setAccordionItem={setAccordionFlight} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} cardType={"arrival"} handleFunction={handleAddPlane}/>
                     <p className="code f6 b ml1 white underline">Departures</p>
