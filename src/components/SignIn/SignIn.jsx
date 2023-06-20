@@ -39,9 +39,10 @@ const SignIn = ({setUser}) => {
     }
 
     return (
-        <article className="br3 ba b--black-10 mv6 w-100 w-50-m w-25-l mw6 shadow-5 center">
+        <div className="pt6">
+        <article className="br3 ba b--black-10 w-100 w-50-m w-25-l shadow-5 center">
             <main className="pa4 black-80">
-                <div className="measure">
+                <div className="measure center">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f2 fw5 ph0 mh0 tc">Sign In</legend>
                         <div className="tc red">
@@ -68,7 +69,7 @@ const SignIn = ({setUser}) => {
                     </fieldset>
                     <div className="tc">
                         <input 
-                            className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                            className="b ph3 pv2 mb2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                             type="submit" value="Sign in" onClick={handleSubmit}
                         />
                     </div>
@@ -79,6 +80,7 @@ const SignIn = ({setUser}) => {
                 </div>
             </main>
         </article>
+        </div>
     )
   
 }
