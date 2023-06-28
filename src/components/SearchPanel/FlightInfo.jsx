@@ -170,11 +170,7 @@ const FlightInfo = ({pilot, getDistance}) => {
   };
 
 
-export default React.memo(FlightInfo, (prevProps, nextProps)=> {
-
-    return prevProps.pilot.arr === nextProps.pilot.arr;
-
-});
+export default FlightInfo;
 
 
 
