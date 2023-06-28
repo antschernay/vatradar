@@ -71,11 +71,11 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
         return `${hours}:${minutes}Z`;
       }
 
-      const getDepartTime = (distance, speed, depTime) => {
-        if (distance > 5 && speed > 20) {
-            return "ENROUT"
+     const getDepartTime = (distance, speed, depTime) => {
+        if (distance < 7 && speed < 20) {
+            return `${depTime.slice(0, 2)}:${depTime.slice(2)}Z`;
         }
-        else return `${depTime.slice(0, 2)}:${depTime.slice(2)}Z`;
+        else return "ENROUT";
 
 
       }
