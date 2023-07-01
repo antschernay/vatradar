@@ -14,7 +14,6 @@ import Favorites from './components/Favorites/Favorites';
 function App() {
 
   
-  const [loading, setLoading] = useState(true);
   const [pilots, setPilots] = useState([]);
   const [airports, setAirports] = useState([]);
   const [controllers, setControllers] = useState([]);
@@ -22,8 +21,7 @@ function App() {
   const [selectedPlanes, setSelectedPlanes] = useState([]);
   const [selectedAirports, setSelectedAirports] = useState([]);
   const [user, setUser] = useState([]);
-  const [zoom, setZoom] = useState(6);
-  const [center, setCenter] = useState([48.5,10])
+ 
 
   
 
@@ -35,28 +33,6 @@ function App() {
   }, []);
 
 
-  useEffect(() => {
-    const storageAirports = localStorage.getItem('selectedAirports')
-    const storageZoom = localStorage.getItem('zoom')
-    const storageCenter = localStorage.getItem('center')
-    if (storageZoom) {
-      setZoom(JSON.parse(storageZoom))
-      console.log(JSON.parse(JSON.parse(storageZoom)))
-      console.log(zoom)
-    }
-
-    if (storageAirports) {
-      setSelectedAirports(JSON.parse(storageAirports));
-    }
-    
-
-    if (storageCenter) {
-      console.log(storageCenter)
-      setCenter(JSON.parse(storageCenter))
-     
-    }
-    setLoading(false);
-  }, [user]);
   
 
 
@@ -110,9 +86,7 @@ function App() {
   }, []);
 
 
-  if (loading) {
-    return <div>LOADING</div>
-  }
+ 
 
   
   return (   
@@ -122,7 +96,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes} airports={airports}
                                             selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports} user={user.cid}
-                                            zoom={zoom} center={center} controllers={controllers} />} />
+                                            controllers={controllers} />} />
         <Route path='/signin' element={<SignIn setUser={setUser}/>} />
         <Route path='/register' element={<Register/>}/>
         <Route path='/profile' element={user.user_id ? <UserProfile user={user} setUser={setUser} /> : <Navigate to="/signin" /> }/>
