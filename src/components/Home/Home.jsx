@@ -9,7 +9,7 @@ import Atc from "../Atc/Atc";
 
 
 
-const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, user, airports, zoom, center, controllers}) => {
+const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, user, airports, controllers}) => {
 
     const [planesAreShown, setPlanesAreShown] = useState(true);
     const [panelIsShown, setPanelIsShown] = useState(false);
@@ -18,6 +18,33 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     const [selectedFlight, setSelectedFlight] = useState([]);
     const [selectedAirport, setSelectedAirport] = useState([]);
     const [atcAreShown, setAtcAreShown] = useState(false);
+    const [zoom, setZoom] = useState(6);
+    const [center, setCenter] = useState([48.5,10])
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        const storageAirports = localStorage.getItem('selectedAirports')
+        const storageZoom = localStorage.getItem('zoom')
+        const storageCenter = localStorage.getItem('center')
+        if (storageZoom) {
+          setZoom(JSON.parse(storageZoom))
+          console.log(JSON.parse(JSON.parse(storageZoom)))
+          console.log(zoom)
+        }
+    
+        if (storageAirports) {
+          setSelectedAirports(JSON.parse(storageAirports));
+        }
+        
+    
+        if (storageCenter) {
+          console.log(storageCenter)
+          setCenter(JSON.parse(storageCenter))
+         
+        }
+        setLoading(false);
+      }, []);
     
 
 
@@ -30,7 +57,9 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
       
     }}
 
-
+    if (loading) {
+        return <div>LOADING</div>
+    }
 
 
     return( 
