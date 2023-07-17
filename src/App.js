@@ -8,6 +8,9 @@ import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import UserProfile from './components/UserProfile/UserProfile';
 import Favorites from './components/Favorites/Favorites';
+import Error404 from './components/Error404/Error404';
+import ForgotPassword from './components/SignIn/ForgotPassword';
+import ResetPassword from './components/SignIn/ResetPassword';
 
 
 
@@ -21,9 +24,8 @@ function App() {
   const [selectedPlanes, setSelectedPlanes] = useState([]);
   const [selectedAirports, setSelectedAirports] = useState([]);
   const [user, setUser] = useState([]);
- 
 
-  
+ 
 
   useEffect(() => {
     const data = sessionStorage.getItem('login')
@@ -55,24 +57,25 @@ function App() {
  
 
   async function fetchPilots(){
-    const data = await fetch("https://tender-teal-panda.cyclic.app/")
-    const pilots = await data.json();
-    setPilots(pilots);
+    try {
+      const data = await fetch("https://tender-teal-panda.cyclic.app/")
+      const pilots = await data.json();
+      setPilots(pilots);
 
-    const data2 = await fetch("https://tender-teal-panda.cyclic.app/mapAirports")
-    const airports = await data2.json()
-    setAirports(airports)
+      const data2 = await fetch("https://tender-teal-panda.cyclic.app/mapAirports")
+      const airports = await data2.json()
+      setAirports(airports)
 
-    const data3 = await fetch("https://tender-teal-panda.cyclic.app/controllers")
-    const controllers = await data3.json()
-    setControllers(controllers)
+      const data3 = await fetch("https://tender-teal-panda.cyclic.app/controllers")
+      const controllers = await data3.json()
+      setControllers(controllers)
+    } catch (error) {
+      console.log(error)
+    }
    
   }
      
   
-
-
-
 
 
   React.useEffect(() => {
@@ -99,8 +102,11 @@ function App() {
                                             controllers={controllers} />} />
         <Route path='/signin' element={<SignIn setUser={setUser}/>} />
         <Route path='/register' element={<Register/>}/>
+        <Route path='/forgotPassword' element={<ForgotPassword />}/>
+        <Route path='/resetPassword/:id/:token' element={<ResetPassword />}/>
         <Route path='/profile' element={user.user_id ? <UserProfile user={user} setUser={setUser} /> : <Navigate to="/signin" /> }/>
         <Route path='/favorites' element={user.user_id ? <Favorites userId={user.user_id} pilots={pilots}/> : <Navigate to="/signin" /> }/>
+        <Route path='*' element={<Error404 />} />
       </Routes>
       </div> 
       
@@ -112,3 +118,17 @@ function App() {
 
 export default App;
 
+
+/*async function fetchJson() {
+  try {
+    const response = await fetch("http://localhost:3001");
+    const json = await response.json();
+    setData(json);
+  } catch (error) {
+    console.error(error);
+  }
+
+  const data2 = await fetch("http://localhost:3001/mapAirports")
+    const airports = await data2.json()
+    setAirports(airports)
+}  */

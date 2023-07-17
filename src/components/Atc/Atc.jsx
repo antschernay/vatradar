@@ -1,6 +1,6 @@
 import React from 'react';
 import L from "leaflet";
-import {  Marker, Popup, Tooltip } from 'react-leaflet';
+import {  Marker, Tooltip } from 'react-leaflet';
 
 
 const Atc = ({ airports, selectedAirports, setSelectedAirports, setAccordionItem, setPanelIsShown, selectedAirport, setSelectedAirport}) => {
@@ -37,29 +37,45 @@ const Atc = ({ airports, selectedAirports, setSelectedAirports, setAccordionItem
 
         
         if (airport.atc.length) {
-           
-            return (
-                
-                <Marker
-                position={[airport.lat_decimal, airport.lon_decimal]}
-                icon={markerColor}
-                zIndexOffset={zIndex}
+          const uniqueLetters = new Set();
+          const uniqueATC = airport.atc.filter((atc) => {
+            const letter = atc[atc.length - 3];
+            if (!uniqueLetters.has(letter)) {
+              uniqueLetters.add(letter);
+              return true;
+            }
+            return false;
+          });
+        
+          return (
+            <Marker position={[airport.lat_decimal, airport.lon_decimal]} icon={markerColor} zIndexOffset={zIndex}>
+              <Tooltip
+                direction="right"
+                offset={[0, 0]}
+                opacity={1}
+                permanent
+                interactive={true}
                 eventHandlers={{
-                    click: () => {
-                        setSelectedAirport(isSelectedAirport ? [] : { "icao_code": airport.icao_code});
-                        handleAdd(selectedAirports, airport, setSelectedAirports)
-                        setAccordionItem(airport.icao_code)
-                        setPanelIsShown(true);
-                    },
-                
-                }
-                }>
-                <Tooltip direction="right" offset={[0, 0]} opacity={1} permanent><div className='atc-label tc'><b>{airport.icao_code}</b>{airport.atc.map((atc) =><p className='f7 label ma0 lh-solid atc-label'>{atc[atc.length-3]}</p>)}</div></Tooltip> 
-                
-                
-                </Marker>
-            )
-
+                  click: () => {
+                    setSelectedAirport(isSelectedAirport ? {"icao_code": '', "lat_decimal":0, "lon_decimal":0} : { "icao_code": airport.icao_code, "lat_decimal":airport.lat_decimal, "lon_decimal":airport.lon_decimal});
+                    if (!isSelectedAirport) {
+                      handleAdd(selectedAirports, airport, setSelectedAirports);
+                      setAccordionItem(airport.icao_code);
+                    }
+                    setPanelIsShown(true);
+                }}}
+              >
+                <div className='atc-label tc'>
+                  <b>{airport.icao_code}</b>
+                  <div className='flex justify-center'>
+                    {uniqueATC.map((atc) => (
+                      <p className='f7 atc-label ma0 lh-solid pointer' style={{letterSpacing: '2px'}}>{atc[atc.length - 3]}</p>
+                    ))}
+                  </div>
+                </div>
+              </Tooltip>
+            </Marker>
+          );
         }
         
       

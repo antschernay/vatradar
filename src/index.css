@@ -137,6 +137,10 @@ a.leaflet-popup-close-button{
   height: 35%;
 }
 
+.fav-airports {
+  width: 50%;
+}
+
 
 .half-card-flights {
   height: 12em;
@@ -194,6 +198,12 @@ a.leaflet-popup-close-button{
 
 }
 
+.float-box {
+  z-index: 1500;
+  position: absolute;
+  top:12em;
+}
+
 @media screen and (max-width: 1175px)  and (min-width:940px){
 
   article {
@@ -237,7 +247,7 @@ a.leaflet-popup-close-button{
   .searchpanel {
     width: 100% !important;
     height: auto !important;
-    max-height: 48% !important;
+    max-height: 50% !important;
     z-index: 1500;
     position: absolute;
     scroll-behavior: auto;
@@ -247,18 +257,18 @@ a.leaflet-popup-close-button{
   }
   .toolbar {
     top:auto;
-    bottom: 0.8em !important;
-    position: absolute !important
+    bottom: 1.2em !important;
+    position: absolute !important;
   }
   .home {
     display: block !important;
   }
-  .airport-card {
-    width: 100% !importnat;
-  }
+ 
   .fav-airports {
-    width: 95% !important;
+    width: 95%;
   }
-
 
 }
+
+
+

@@ -15,7 +15,7 @@ const FlightInfo = ({pilot, getDistance}) => {
     useEffect(()=>{
 
         try {
-            fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.arr}`)
+            fetch(`http://localhost:3001/map/airport/${pilot.arr}`)
             .then((response) => response.json())
             .then((responseData) => {
                 setArr(responseData);
@@ -26,7 +26,7 @@ const FlightInfo = ({pilot, getDistance}) => {
             console.error(error.message)
         }
         try {
-            fetch(`https://tender-teal-panda.cyclic.app/airport/${pilot.dep}`)
+            fetch(`http://localhost:3001/map/airport/${pilot.dep}`)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log("data was sent")
@@ -170,7 +170,11 @@ const FlightInfo = ({pilot, getDistance}) => {
   };
 
 
-export default FlightInfo;
+export default React.memo(FlightInfo, (prevProps, nextProps)=> {
+    
+ return prevProps.pilots !== nextProps.pilots || prevProps.arr !== nextProps.arr;
+
+});
 
 
 

@@ -7,23 +7,31 @@ import pin from '../../img/pin1.svg';
 
 
 const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setSelectedAirports, selectedFlight,
-    setSelectedFlight, handleAddPlane, accordionItem, setAccordionItem, selectedAirport, controllers} ) => {
+    setSelectedFlight, setSelectedAirport, handleAddPlane, accordionItem, setAccordionItem, selectedAirport, controllers, handleSetView} ) => {
 
     const [airports, setAirports] = useState([]);
     const [searchField, setSearchField] = useState("");
-   
+    const [errorMessage, setErrorMessage] = useState("");
 
 
     useEffect(() => {
-        const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
-            setAirports(await response.json());
+        const fetchAirports = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/map/airports/${searchField.toUpperCase()}`);
+            if (!response.ok) {
+            throw new Error('HTTP request failed');
+            }
+            const airportsData = await response.json();
+            setAirports(airportsData);
+        } catch (error) {
+            setErrorMessage("The server is currently down. Please try again later.");
         }
-        if (searchField.length >= 3){
-            fetchAirports();
-        }
-        if (searchField.length === 2){
-            setAirports([]);
+        };
+    
+        if (searchField.length >= 3) {
+        fetchAirports();
+        } else if (searchField.length === 2) {
+        setAirports([]);
         }
     }, [searchField]);
 
@@ -73,16 +81,19 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
                 /> 
 
 
-                <SelectedPlanes planes={selectedPlanes} pilots={pilots} accordionItem={accordionItem} setAccordionItem={setAccordionItem} handleFunction={handleDelete} setSelectedPlanes={setSelectedPlanes} cardType={"normal"} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}/>
+                <SelectedPlanes planes={selectedPlanes} pilots={pilots} accordionItem={accordionItem} setAccordionItem={setAccordionItem} 
+                                    handleFunction={handleDelete} setSelectedPlanes={setSelectedPlanes} cardType={"normal"} 
+                                    selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleSetView={handleSetView}/>
                 <SelectedAirports airports={selectedAirports} pilots={pilots} setSelectedPlanes={setSelectedPlanes}
                                     accordionItem={accordionItem} setAccordionItem={setAccordionItem}
                                     handleDelete={handleDelete} setSelectedAirports={setSelectedAirports} 
                                     selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight}
                                     handleAddPlane={handleAddPlane} selectedAirport={selectedAirport} controllers={controllers}
+                                    handleSetView={handleSetView} setSelectedAirport={setSelectedAirport}
                                     />
               
 
-
+                {errorMessage &&<p className="white code ph2">{errorMessage}</p>}
                 {searchField.length ?
                     <div className="">
                          <div>
@@ -149,4 +160,15 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
 
 export default SearchPanel;
 
-
+/*useEffect(() => {
+        const filteredPlanes = pilots.filter(pilot =>{
+            return pilot.callsign.toLowerCase().includes(searchField.toLowerCase());
+        });
+       
+        setFilteredPlanes(filteredPlanes);
+      }, [searchField]);
+      
+      
+      <div className="pa2 ba b--silver bg-mid-gray w-100 mt2">
+                    <p className="code white ma1">Airports</p>
+                </div>*/

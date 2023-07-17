@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const SignIn = ({setUser}) => {
 
@@ -9,34 +9,46 @@ const SignIn = ({setUser}) => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-       try {
-            fetch('https://tender-teal-panda.cyclic.app/signin', {
-                method: 'post',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    email: emailRef.current.value,
-                    password: passwordRef.current.value
-                })
-            })
-            .then(response => response.json())
-            .then(user => {
-                if (user.user_id) {
-                    console.log(user)
-                    setUser(user);
-                    sessionStorage.setItem("login", JSON.stringify(user))
-                    navigate('/', { replace: true });
-                } 
-                else setError('Invalid email or password')
-            })
-       } catch (error) {
-            setError('Invalid email or password')
-       }
-        
-  
+    const location = useLocation();
+    const message = location.state && location.state.message;
 
-    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+      
+        fetch('https://tender-teal-panda.cyclic.app/auth/signin', {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: emailRef.current.value,
+            password: passwordRef.current.value
+          })
+        })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else if (response.status === 400) {
+              throw new Error('Invalid email or password');
+            } else {
+              throw new Error('HTTP request failed');
+            }
+          })
+          .then(user => {
+            setUser(user);
+            sessionStorage.setItem("login", JSON.stringify(user));
+            navigate('/', { replace: true });
+          })
+          .catch(error => {
+            console.log(error);
+            if (error.message === 'Invalid email or password') {
+              setError('Invalid email or password');
+            } else {
+              setError('The server is currently down. Please try again later.');
+            }
+          });
+      };
+
+      console.log(message);
+
 
     return (
         <div className="pt6">
@@ -44,9 +56,10 @@ const SignIn = ({setUser}) => {
             <main className="pa4 black-80">
                 <div className="measure center">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                        <legend className="f2 fw5 ph0 mh0 tc">Sign In</legend>
-                        <div className="tc red">
-                            {error && <p>{error}</p>}
+                        <legend className="f2 ph0 mh0 tc b">Sign In</legend>
+                        <div className="tc">
+                            {error && <p className="red">{error}</p>}
+                            {message && <p className="blue">{message}</p>}
                         </div>
                        
                         <div className="mt3">
@@ -74,7 +87,7 @@ const SignIn = ({setUser}) => {
                         />
                     </div>
                     <div className="lh-copy mt3">
-                        <p className="f6 link dim tc black db"><Link className='no-underline black' to={''}>Forgotten password?</Link></p>
+                        <p className="f6 link dim tc black db"><Link className='no-underline black' to={'/forgotPassword'}>Forgotten password?</Link></p>
                         <p className="f6 link dim tc black db"><Link className='no-underline black' to={'/register'}>Register</Link></p>
                     </div>
                 </div>
@@ -86,3 +99,12 @@ const SignIn = ({setUser}) => {
 }
 
 export default SignIn;
+
+
+/*      .then(response => response.json())
+        .then(user => {
+            if (user.user_id) {
+                navigate('/', { replace: true })
+            } 
+            else setError('Invalid email or password')
+        });*/

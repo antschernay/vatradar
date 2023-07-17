@@ -3,6 +3,18 @@ import React from "react";
 
 const Controllers = ({controllers}) => {
 
+
+    const formatTime = (logOnTime) => {
+    
+        const date = new Date(logOnTime);
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+        const formattedTime = `${hours}:${minutes}Z`;
+
+        return formattedTime;
+
+    }
+
     return (
        
         <table className="white code w-100 center atc-table ba b--silver collapse">
@@ -20,7 +32,7 @@ const Controllers = ({controllers}) => {
                     <td className="ma0 pa1 br b--silver f6">{controller.callsign}</td>
                     <td className="ma0 pa1 br b--silver f6">{controller.name}</td>
                     <td className="ma0 pa1 br b--silver f6">{controller.frequency}</td>
-                    <td className="ma0 pa1 br b--silver f6">12:57Z</td>
+                    <td className="ma0 pa1 br b--silver f6">{formatTime(controller.logon_time)}</td>
                 </tr>
             
             

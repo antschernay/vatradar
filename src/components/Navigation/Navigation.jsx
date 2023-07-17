@@ -98,3 +98,27 @@ const Navigation = ({dateTime, pilots, user, setUser}) => {
 }
 
 export default Navigation;
+
+/*if (isSignedIn) {
+        return (
+        <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <p onClick={() => onRouteChange('signout')} className='f3 link dim black pa3 pointer'>Sign Out</p>
+        </nav>
+        );
+    } else {
+        return (
+        <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <p onClick={() => onRouteChange('signin')} className='f3 link dim black pa3 pointer'>Sign In</p>
+            <p onClick={() => onRouteChange('register')} className='f3 link dim black pa3 pointer'>Register</p>
+        </nav>          
+        );
+         <p onClick={()=> onRouteChange("signin")} className='f5 b link pt1 ph3 dim pointer'>Sign In</p>
+                <p onClick={()=> onRouteChange("register")} className='f5 b link dim ph3 pt1 pointer'>Register</p>
+    }     
+    
+    
+     <SearchBox />
+              
+                <FontAwesomeIcon className='silver pt2 f3 dim pointer' icon={faMagnifyingGlassLocation } />
+                
+                */

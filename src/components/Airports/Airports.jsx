@@ -3,7 +3,8 @@ import L from "leaflet";
 import {  Marker, Popup } from 'react-leaflet';
 
 
-const Airports = ({ airports, selectedAirports, setSelectedAirports, setAccordionItem, setPanelIsShown, selectedAirport, setSelectedAirport}) => {
+
+const Airports = ({ airports, selectedAirports, setSelectedAirports, setAccordionItem, setPanelIsShown, selectedAirport, setSelectedAirport, pilots}) => {
 
 
   const icon = new L.icon({
@@ -45,22 +46,27 @@ const Airports = ({ airports, selectedAirports, setSelectedAirports, setAccordio
             zIndexOffset={zIndex}
             eventHandlers={{
               click: () => {
-                  setSelectedAirport(isSelectedAirport ? [] : { "icao_code": airport.icao_code});
-                  handleAdd(selectedAirports, airport, setSelectedAirports)
-                  setAccordionItem(airport.icao_code)
+                  setSelectedAirport(isSelectedAirport ? {"icao_code": '', "lat_decimal":0, "lon_decimal":0} : { "icao_code": airport.icao_code, "lat_decimal":airport.lat_decimal, "lon_decimal":airport.lon_decimal});
+                  if (!isSelectedAirport) {
+                    handleAdd(selectedAirports, airport, setSelectedAirports);
+                    setAccordionItem(airport.icao_code);
+                  }
+                 
                   setPanelIsShown(true);
               },
               mouseover: (event) => event.target.openPopup(),
               mouseout: (event) => event.target.closePopup(),
             }
             }>
-            <Popup>
+        
+             <Popup>
+
               <div className='flex justify-center'>
                 <p className='b'>{airport.icao_code}</p>
               </div>
               
             </Popup>
-             
+            
           </Marker>
         );
       })
@@ -77,3 +83,5 @@ export default React.memo(Airports, (prevProps, nextProps) => {
   }
   return true;
 });
+
+//<Tooltip direction="right" offset={[0, 0]} opacity={1} permanent><p className='f7 b ma0 lh-solid'>{airport.icao_code}</p></Tooltip>

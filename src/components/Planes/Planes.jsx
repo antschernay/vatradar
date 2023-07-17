@@ -5,11 +5,11 @@ import "leaflet-rotatedmarker";
 import Trajectory from './Trajectory.jsx';
 
 
-const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, setAccordionItem, setPanelIsShown }) => {
+const Planes = ({ pilots, handleAddPlane, selectedFlight, setSelectedFlight, setAccordionItem, setPanelIsShown, user }) => {
 
  
   const icon = new L.icon({
-    iconUrl: require("../../img/plane1-smol0.png"),
+    iconUrl: require("../../img/plane1-smol0-min.png"),
     iconSize: 23,
    
   })
@@ -20,18 +20,22 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
    
   })
 
-
+  const orangeIcon = new L.icon({
+    iconUrl: require("../../img/plane13.png"),
+    iconSize: 23, 
+  })
 
 
     return ( 
-      
+    
         
       pilots.map((pilot) => {
         const { callsign, cid, lat, lon, head, dep, arr, aircraft, alti, speed } = pilot;
         const isSelectedFlight = pilot.callsign === selectedFlight.callsign;
-        const markerColor = isSelectedFlight ? redIcon : icon;
+        const isUser = cid.toString() === user;
+        const markerColor = isSelectedFlight ? redIcon : (isUser ? orangeIcon : icon);
         const key = `${callsign}-${head}`;
-        const zIndex = isSelectedFlight ? 99999 : -1000;
+        const zIndex = isSelectedFlight || isUser ? 99999 : -1000;
     
       
         return (
@@ -46,14 +50,19 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
               click: () => {
                 setSelectedFlight(isSelectedFlight ? [] : { "callsign": callsign, "dep": dep, "arr": arr });
                 handleAddPlane(pilot);
-                setAccordionItem(callsign);
-                setPanelIsShown(true);
-               
+                setAccordionItem((prevAccordionItem) => {
+                  if (!isSelectedFlight) {
+                    return prevAccordionItem === callsign ? callsign :callsign;
+                  }
+                  return prevAccordionItem;
+                });
+                setPanelIsShown(true); 
               },
               mouseover: (event) => event.target.openPopup(),
               mouseout: (event) => event.target.closePopup(),
             }}>
-           <Popup>
+             
+            <Popup>
               <div className='ph2'>
                 <p className='b'>{callsign} {aircraft}</p>
                 <p className=''>{alti} {speed}</p>
@@ -63,17 +72,53 @@ const Planes = ({ pilots, setSelectedFlight, handleAddPlane, selectedFlight, set
             </Popup>
             {isSelectedFlight && <Trajectory lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
           </Marker>
+     
         );
-       
+         
 }))
-}
+};
 
-export default React.memo(Planes);
+export default Planes;
 
-/* (prevProps, nextProps) => {
-  // only re-render if pilots or selectedFlight have changed
-  if (prevProps.pilots !== nextProps.pilots || prevProps.selectedFlight !== nextProps.selectedFlight) {
-    return false;
-  }
-  return true;
-});*/
+
+           
+                      
+    /*<Polyline positions={[
+        [0, 0], [30, 30]
+        ]} color={'black'} weight={1}/>
+        
+        
+         const { callsign, cid, lat, lon, head, dep, arr } = pilot;
+        const isSelectedFlight = pilot.callsign === selectedFlight.callsign;
+        const isUser = cid.toString() === user;
+        const markerColor = isSelectedFlight ? redIcon : (isUser ? orangeIcon : icon);
+        const key = `${callsign}-${head}`;
+        const zIndex = isSelectedFlight || isUser ? 999999 : 3000;
+      
+        return (
+          <Marker
+            position={[lat, lon]}
+            rotationOrigin={'center'}
+            icon={markerColor}
+            rotationAngle={head}
+            key={key}
+            zIndexOffset={zIndex}
+            eventHandlers={{
+              click: () => {
+                setSelectedFlight(isSelectedFlight ? [] : { "callsign": callsign, "dep": dep, "arr": arr });
+                handleAddPlane(pilot);
+                setAccordionItem(callsign);
+                setPanelIsShown(true);
+              },
+              mouseover: (event) => event.target.openPopup(),
+              mouseout: (event) => event.target.closePopup(),
+            }}>
+            <Popup>{callsign}</Popup>
+          </Marker>
+        );
+      })
+
+             
+<Polyline positions={[[arrAirport.lat_decimal, arrAirport.lon_decimal], [lat, lon],
+                                   depAirport.lat_decimal, depAirport.lon_decimal]} color={'black'} weight={1}
+    );*/

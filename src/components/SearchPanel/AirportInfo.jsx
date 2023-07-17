@@ -1,9 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Polyline } from "react-leaflet";
 import SelectedPlanes from "./SelectedPlanes";
 import Controllers from "./Controllers";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
-const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handleAddPlane, controllers}) => {
+const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handleAddPlane, controllers, handleSetView}) => {
 
     const [arrivals, setArrivals] = useState([]);
     const [departures, setDepartures] = useState([]);
@@ -71,8 +74,8 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
         return `${hours}:${minutes}Z`;
       }
 
-     const getDepartTime = (distance, speed, depTime) => {
-        if (distance < 7 && speed < 20) {
+      const getDepartTime = (distance, speed, depTime) => {
+        if (distance < 5 && speed < 20) {
             return `${depTime.slice(0, 2)}:${depTime.slice(2)}Z`;
         }
         else return "ENROUT";
@@ -122,7 +125,7 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
 
     useEffect(() => {
         try {
-            fetch(`https://tender-teal-panda.cyclic.app/weather/${airport.icao_code}`)
+            fetch(`http://localhost:3001/map/weather/${airport.icao_code}`)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(responseData);
@@ -166,11 +169,25 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
                 </table> 
                     <p className="code f6 ml1 b white underline ">ATC</p>
                         <Controllers controllers={getControllers(airport.icao_code)}/>
-                    <p className="code f6 ml1 b white underline ">Arrivals</p>
-                        <SelectedPlanes planes={arrivals} pilots={pilots} accordionItem={accordionFlight} setAccordionItem={setAccordionFlight} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} cardType={"arrival"} handleFunction={handleAddPlane}/>
-                    <p className="code f6 b ml1 white underline">Departures</p>
-                        <SelectedPlanes planes={departures} pilots={pilots} accordionItem={accordionFlight} setAccordionItem={setAccordionFlight} selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} cardType={"departure"} handleFunction={handleAddPlane}/>
+                    <div className="flex items-center mt1 lh-solid">
+                            <p className="code f6 ml1 b white lh-solid mb2 mt3"><span className="underline">Arrivals</span> ({arrivals.length})
+                            
+                         </p>
+                         <FontAwesomeIcon className='dib f7 ph2 mb2 mt3' style={{color:'#ba2779'}} icon={faSquare} />
+                    </div>
+                        <SelectedPlanes planes={arrivals} pilots={pilots} accordionItem={accordionFlight} setAccordionItem={setAccordionFlight} selectedFlight={selectedFlight} 
+                                        setSelectedFlight={setSelectedFlight} cardType={"arrival"} handleFunction={handleAddPlane} handleSetView={handleSetView}/>
+                    <div className="flex items-center mt1">
+                        <p className="code f6 b ml1 white mb2 mt3"><span className="underline">Departures</span> ({departures.length})
+                       
+                        </p>
+                        <FontAwesomeIcon className='dib f7 ph2 mb2 mt3' style={{color:'#077db3'}} icon={faSquare} />
+                    </div>
+                        <SelectedPlanes planes={departures} pilots={pilots} accordionItem={accordionFlight} setAccordionItem={setAccordionFlight} 
+                                        selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} cardType={"departure"}
+                                         handleFunction={handleAddPlane} handleSetView={handleSetView}/>
         </div>
+        
     </>
   )
 };

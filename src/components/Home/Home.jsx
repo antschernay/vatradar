@@ -1,11 +1,14 @@
 import React from "react";
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from "leaflet";
 import Planes from "../Planes/Planes";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Toolbar from "../Toolbar/Toolbar";
 import SearchPanel from "../SearchPanel/SearchPanel";
 import Airports from "../Airports/Airports";
 import Atc from "../Atc/Atc";
+import LinesToFlights from "../LinesToFlights/LinesToFLights";
+import Sectors from "../Sectors/Sectors";
 
 
 
@@ -16,11 +19,13 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     const [airportsAreShown, setAirportsAreShown] = useState(false);
     const [accordionItem, setAccordionItem] = useState("");
     const [selectedFlight, setSelectedFlight] = useState([]);
-    const [selectedAirport, setSelectedAirport] = useState([]);
+    const [selectedAirport, setSelectedAirport] = useState({"icao_code": '', "lat_decimal":0, "lon_decimal":0});
     const [atcAreShown, setAtcAreShown] = useState(false);
+    const [polygonsAreShown, setPolygonsAreShown] = useState(false);
     const [zoom, setZoom] = useState(6);
     const [center, setCenter] = useState([48.5,10])
     const [loading, setLoading] = useState(true);
+    const mapRef = useRef(null);
 
 
     useEffect(() => {
@@ -35,7 +40,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
     
         if (storageAirports) {
           setSelectedAirports(JSON.parse(storageAirports));
-        }
+        }     
         
     
         if (storageCenter) {
@@ -45,21 +50,42 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
         }
         setLoading(false);
       }, []);
-    
 
 
-    const handleAddPlane = (plane) => {
-        const newValue = {"callsign": plane.callsign, "dep": plane.dep, "arr": plane.arr, "speed": plane.speed};
-      
-    if (!selectedPlanes.some((value) => (value.callsign === newValue.callsign && value.dep === newValue.dep && value.arr === newValue.arr))) {
-      setSelectedPlanes(previousArray => [...previousArray, newValue]);
-      
-      
-    }}
 
-    if (loading) {
-        return <div>LOADING</div>
-    }
+      useEffect(()=> {
+        
+        setSelectedPlanes(selectedPlanes.filter((plane)=> pilots.some((pilot)=>pilot.callsign===plane.callsign)))
+
+      }, [pilots])
+
+
+      const blueIcon = new L.icon({
+        iconUrl: require("../../img/fot_b.png"),
+        iconSize: 35,
+       
+      })
+
+
+        const handleSetView = (coords) => {
+            mapRef.current.setView(coords, 5)
+        }
+
+
+        const handleAddPlane = (plane) => {
+            const newValue = {"callsign": plane.callsign, "dep": plane.dep, "arr": plane.arr, "speed": plane.speed, "lat": plane.lat, "lon":plane.lon};
+        
+            if (!selectedPlanes.some((value) => (value.callsign === newValue.callsign && value.dep === newValue.dep && value.arr === newValue.arr))) {
+                setSelectedPlanes(previousArray => [...previousArray, newValue]);                  
+        
+        }}
+
+
+        if (loading) {
+            return <div>LOADING</div>
+        }
+
+
 
 
     return( 
@@ -69,12 +95,12 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                 <SearchPanel pilots={pilots} selectedPlanes={selectedPlanes} setSelectedPlanes={setSelectedPlanes}
                                 selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
                                 selectedFlight={selectedFlight} setSelectedFlight={setSelectedFlight} handleAddPlane={handleAddPlane}
-                                accordionItem={accordionItem} setAccordionItem={setAccordionItem}
-                                selectedAirport={selectedAirport} controllers={controllers}/>
+                                accordionItem={accordionItem} setAccordionItem={setAccordionItem} setSelectedAirport={setSelectedAirport}
+                                selectedAirport={selectedAirport} controllers={controllers} handleSetView={handleSetView}/>
             }
 
             <MapContainer center={center} zoom={zoom} minZoom={2} scrollWheelZoom={true} zoomControl={false}
-                        style={{ width:'100vw', height:'100vh'}} > 
+                        style={{ width:'100vw', height:'100vh'}} ref={mapRef} > 
                             
                 
                 <TileLayer
@@ -87,7 +113,8 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                 <Toolbar planesAreShown={planesAreShown} setPlanesAreShown={setPlanesAreShown} 
                          panelIsShown={panelIsShown} setPanelIsShown={setPanelIsShown}
                          airportsAreShown={airportsAreShown} setAirportsAreShown={setAirportsAreShown} 
-                         atcAreShown={atcAreShown} setAtcAreShown={setAtcAreShown}/>
+                         atcAreShown={atcAreShown} setAtcAreShown={setAtcAreShown}
+                         polygonsAreShown={polygonsAreShown} setPolygonsAreShown={setPolygonsAreShown}/>
              
                 {planesAreShown &&
                 
@@ -100,8 +127,25 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                 {airportsAreShown && 
                     <Airports airports={airports} selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
                               setAccordionItem={setAccordionItem} setPanelIsShown={setPanelIsShown} selectedAirport={selectedAirport} 
-                              setSelectedAirport={setSelectedAirport}/>
+                              setSelectedAirport={setSelectedAirport} pilots={pilots}/>
                 }
+
+                {selectedAirport.icao_code &&
+                    <Marker  position={[selectedAirport.lat_decimal, selectedAirport.lon_decimal]}
+                            icon={blueIcon}
+                            zIndexOffset={5000}
+                            eventHandlers={{
+                                click: () => {
+                                    setSelectedAirport({"icao_code": '', "lat_decimal":0, "lon_decimal":0})}
+                                }}
+                    >
+                        <LinesToFlights lat={selectedAirport.lat_decimal} lon={selectedAirport.lon_decimal} 
+                                        icao_code={selectedAirport.icao_code} pilots={pilots}/>
+                        </Marker>
+                
+                }
+
+
 
                 {atcAreShown &&
                 <Atc airports={airports} selectedAirports={selectedAirports} setSelectedAirports={setSelectedAirports}
@@ -109,8 +153,14 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
                     setSelectedAirport={setSelectedAirport} />
 
                 }
+
+                {polygonsAreShown &&
+
+                <Sectors />
+
+                }
                 
-                
+      
                
             
             </MapContainer>
@@ -127,6 +177,5 @@ export default React.memo(Home, (prevProps, nextProps) => {
         }
     else return true;
 });
-
 
 

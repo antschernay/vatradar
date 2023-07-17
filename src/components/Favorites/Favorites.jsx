@@ -15,8 +15,9 @@ const Favorites = ({userId, pilots}) => {
 
 
     useEffect(() => {
+        try {
         const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`https://tender-teal-panda.cyclic.app/map/airports/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
@@ -24,24 +25,30 @@ const Favorites = ({userId, pilots}) => {
         }
         if (searchField.length <= 2){
             setAirports([]);
+        }}
+        catch (error) {
+            console.log(error)
         }
     }, [searchField]);
 
 
 
     useEffect(() => {
-
-        const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/favAirports/${userId}`)
-            setFavAirports(await response.json());
+        try {
+            const fetchAirports  = async () => {
+                const response = await fetch(`https://tender-teal-panda.cyclic.app/user/favAirports/${userId}`)
+                setFavAirports(await response.json());
+            }
+            fetchAirports()
+        } catch (error) {
+            console.log(error)
         }
-        fetchAirports()
     }, [updatedRow]);
 
 
     const handleAddAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/addToFavorites', {
+            fetch('https://tender-teal-panda.cyclic.app/user/addToFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -62,7 +69,7 @@ const Favorites = ({userId, pilots}) => {
 
     const handleRemoveAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/removeFromFavorites', {
+            fetch('https://tender-teal-panda.cyclic.app/user/removeFromFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -82,7 +89,7 @@ const Favorites = ({userId, pilots}) => {
 
     return (
         <div className="pt6">
-            <div className="center w-50 code mb3 fav-airports">
+            <div className="center code mb3 fav-airports">
                 <div>
                         <input
                             className="pa2 input-reset ba white bg-near-black o-70 w-100" 
@@ -126,4 +133,5 @@ const Favorites = ({userId, pilots}) => {
 
 
 export default Favorites;
+
 
