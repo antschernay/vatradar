@@ -17,7 +17,7 @@ const SearchPanel = ( { pilots, selectedPlanes, setSelectedPlanes, selectedAirpo
     useEffect(() => {
         const fetchAirports = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/map/airports/${searchField.toUpperCase()}`);
+            const response = await fetch(`https://tender-teal-panda.cyclic.app/map/airports/${searchField.toUpperCase()}`);
             if (!response.ok) {
             throw new Error('HTTP request failed');
             }
