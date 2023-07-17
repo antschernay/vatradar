@@ -15,7 +15,7 @@ const SignIn = ({setUser}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
       
-        fetch('https://tender-teal-panda.cyclic.app/auth/signin', {
+        fetch('https://tender-teal-panda.cyclic.app/signin', {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

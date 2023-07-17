@@ -19,7 +19,7 @@ const Register = () => {
       if (!nameRef.current.value || !emailRef.current.value || !passwordRef.current.value) {
         setError("Fields name, email, and password cannot be empty");
       } else {
-        fetch('https://tender-teal-panda.cyclic.app/auth/register', {
+        fetch('https://tender-teal-panda.cyclic.app/register', {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

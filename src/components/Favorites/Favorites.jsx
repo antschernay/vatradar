@@ -17,7 +17,7 @@ const Favorites = ({userId, pilots}) => {
     useEffect(() => {
         try {
         const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/map/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
@@ -36,7 +36,7 @@ const Favorites = ({userId, pilots}) => {
     useEffect(() => {
         try {
             const fetchAirports  = async () => {
-                const response = await fetch(`https://tender-teal-panda.cyclic.app/user/favAirports/${userId}`)
+                const response = await fetch(`https://tender-teal-panda.cyclic.app/favAirports/${userId}`)
                 setFavAirports(await response.json());
             }
             fetchAirports()
@@ -48,7 +48,7 @@ const Favorites = ({userId, pilots}) => {
 
     const handleAddAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/user/addToFavorites', {
+            fetch('https://tender-teal-panda.cyclic.app/addToFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -69,7 +69,7 @@ const Favorites = ({userId, pilots}) => {
 
     const handleRemoveAirport = (icao) => {
         try {
-            fetch('https://tender-teal-panda.cyclic.app/user/removeFromFavorites', {
+            fetch('https://tender-teal-panda.cyclic.app/removeFromFavorites', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

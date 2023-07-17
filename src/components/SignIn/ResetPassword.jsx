@@ -23,7 +23,7 @@ const ResetPassword = () => {
             return setErrorMessage('Passwords do not match.');
         }
         try {
-            fetch('https://tender-teal-panda.cyclic.app/auth/resetPassword', {
+            fetch('https://tender-teal-panda.cyclic.app/resetPassword', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

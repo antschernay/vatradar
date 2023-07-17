@@ -10,7 +10,7 @@ const ForgotPassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
       
-        fetch('https://tender-teal-panda.cyclic.app/auth/forgotPassword', {
+        fetch('https://tender-teal-panda.cyclic.app/forgotPassword', {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
