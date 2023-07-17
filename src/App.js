@@ -103,7 +103,7 @@ function App() {
         <Route path='/signin' element={<SignIn setUser={setUser}/>} />
         <Route path='/register' element={<Register/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword />}/>
-       <Route path='/resetPassword/:id/:token' element={<ResetPassword />} />
+       <Route path='/resetPassword' element={<ResetPassword />} />
         <Route path='/profile' element={user.user_id ? <UserProfile user={user} setUser={setUser} /> : <Navigate to="/signin" /> }/>
         <Route path='/favorites' element={user.user_id ? <Favorites userId={user.user_id} pilots={pilots}/> : <Navigate to="/signin" /> }/>
         <Route path='*' element={<Error404 />} />
