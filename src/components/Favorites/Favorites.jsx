@@ -17,7 +17,7 @@ const Favorites = ({userId, pilots}) => {
     useEffect(() => {
         try {
         const fetchAirports  = async () => {
-            const response = await fetch(`https://tender-teal-panda.cyclic.app/airports/${searchField.toUpperCase()}`)
+            const response = await fetch(`https://tender-teal-panda.cyclic.app/map/airports/${searchField.toUpperCase()}`)
             setAirports(await response.json());
         }
         if (searchField.length >= 3){
