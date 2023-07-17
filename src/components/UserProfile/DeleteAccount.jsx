@@ -20,7 +20,7 @@ const DeleteAccount = ({user, email, setUser, setMessage, setPage}) => {
             return setErrorMessage('The field below must not be empty.')
         }
         try {
-            fetch('https://tender-teal-panda.cyclic.app/deleteAccount', {
+            fetch('https://tender-teal-panda.cyclic.app/auth/deleteAccount', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

@@ -17,7 +17,7 @@ const UserProfile = ({user, setUser}) => {
     useEffect(() => {
 
         try {
-            fetch(`https://tender-teal-panda.cyclic.app/getUser/${user.user_id}`)
+            fetch(`https://tender-teal-panda.cyclic.app/user/getUser/${user.user_id}`)
             .then(response => response.json())
             .then(data => {
                 if (data.email) {
@@ -36,7 +36,7 @@ const UserProfile = ({user, setUser}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         try {
-            fetch('https://tender-teal-panda.cyclic.app/profile', {
+            fetch('https://tender-teal-panda.cyclic.app/user/profile', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

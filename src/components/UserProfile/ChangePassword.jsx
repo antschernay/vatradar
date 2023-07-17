@@ -20,7 +20,7 @@ const ChangePassword = ({email, setMessage, setPage}) => {
             return setErrorMessage('Passwords do not match.');
         }
         try {
-            fetch('https://tender-teal-panda.cyclic.app/changePassword', {
+            fetch('https://tender-teal-panda.cyclic.app/auth/changePassword', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
