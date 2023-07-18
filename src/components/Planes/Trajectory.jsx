@@ -1,9 +1,11 @@
-import React, { useCallback } from "react";
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 import { Polyline } from "react-leaflet";
 
 
-const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
+const Trajectory = ({callsign, lat, lon, arrIcao, depIcao}) => {
+
+  const prevCallsignRef = useRef(null);
 
   
   const [arrAirportLat, setArrAirportLat] = useState(lat);
@@ -13,78 +15,80 @@ const Trajectory = ({lat, lon, arrIcao, depIcao}) => {
 
   
   useEffect(() => {
-    let arrAirportLong;
-    try {
-      fetch(`https://tender-teal-panda.cyclic.app/map/airport/${arrIcao}`)
-      .then((response) => response.json())
-      .then((responseData) => {
-       
-        if (responseData.lat_decimal === 'NaN') {
-          setArrAirportLat(lat);
-        }
-        else if (responseData.lon_decimal === 'NaN') {
-          setArrAirportLon(lon);
-        }
-        else  {
-        setArrAirportLat(responseData.lat_decimal);
-        setArrAirportLon(responseData.lon_decimal);
-        arrAirportLong = responseData.lon_decimal;
-        }
-          
-      })
-  } 
-  catch (error) {
-   
-      console.error(error.message)
-  }
-  try {
-      fetch(`https://tender-teal-panda.cyclic.app/map/airport/${depIcao}`)
-      .then((response) => response.json())
-      .then((responseData) => { 
-        console.log(responseData.lat_decimal)
-        if (responseData.lat_decimal === 'NaN') {
-          
-          setDepAirportLat(lat);
-        }
-        else if (responseData.lon_decimal === 'NaN') {
-          setDepAirportLon(lon);
-        }
-        else {
-        setDepAirportLat(responseData.lat_decimal);
-        setDepAirportLon(responseData.lon_decimal);
-
-        if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon < -50) {
-
-            setDepAirportLon(responseData.lon_decimal - 360)
-        }
-
-        else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon < -50){
+    if (prevCallsignRef.current !== callsign) {
+      let arrAirportLong;
+      try {
+        fetch(`https://tender-teal-panda.cyclic.app/map/airport/${arrIcao}`)
+        .then((response) => response.json())
+        .then((responseData) => {
          
-          setArrAirportLon(arrAirportLong - 360);
-        }
-
-        else if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon > 100) {
-
-          setArrAirportLon(arrAirportLong + 360);
-
-        }
-
-        else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon > 100) {
+          if (responseData.lat_decimal === 'NaN') {
+            setArrAirportLat(lat);
+          }
+          else if (responseData.lon_decimal === 'NaN') {
+            setArrAirportLon(lon);
+          }
+          else  {
+          setArrAirportLat(responseData.lat_decimal);
+          setArrAirportLon(responseData.lon_decimal);
+          arrAirportLong = responseData.lon_decimal;
+          }
+            
+        })
+    } 
+    catch (error) {
+     
+        console.error(error.message)
+    }
+    try {
+        fetch(`https://tender-teal-panda.cyclic.app/map/airport/${depIcao}`)
+        .then((response) => response.json())
+        .then((responseData) => { 
+          console.log(responseData.lat_decimal)
+          if (responseData.lat_decimal === 'NaN') {
+            
+            setDepAirportLat(lat);
+          }
+          else if (responseData.lon_decimal === 'NaN') {
+            setDepAirportLon(lon);
+          }
+          else {
+          setDepAirportLat(responseData.lat_decimal);
+          setDepAirportLon(responseData.lon_decimal);
+  
+          if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon < -50) {
+  
+              setDepAirportLon(responseData.lon_decimal - 360)
+          }
+  
+          else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon < -50){
+           
+            setArrAirportLon(arrAirportLong - 360);
+          }
+  
+          else if (responseData.lon_decimal > 100 && arrAirportLong < -50 && lon > 100) {
+  
+            setArrAirportLon(arrAirportLong + 360);
+  
+          }
+  
+          else if (responseData.lon_decimal < -50 && arrAirportLong > 100 && lon > 100) {
+            
+            setDepAirportLon(responseData.lon_decimal + 360)
+            
+          }
+         
           
-          setDepAirportLon(responseData.lon_decimal + 360)
-          
-        }
-       
-        
-        }
-      })
+          }
+        })
       
+      prevCallsignRef.current = callsign;
       
   } catch (error) {
    
       console.log(error)
   }
-  }, []);
+  }}, [callsign]);
  
     
     
