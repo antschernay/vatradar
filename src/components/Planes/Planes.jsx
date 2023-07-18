@@ -70,7 +70,7 @@ const Planes = ({ pilots, handleAddPlane, selectedFlight, setSelectedFlight, set
               </div>
               
             </Popup>
-            {isSelectedFlight && <Trajectory lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
+            {isSelectedFlight && <Trajectory callsign={callsign} lat={Number(lat)} lon={Number(lon)} arrIcao={arr} depIcao={dep}/>}
           </Marker>
      
         );
