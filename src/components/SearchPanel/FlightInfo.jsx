@@ -29,7 +29,7 @@ const FlightInfo = ({pilot, getDistance}) => {
             fetch(`https://tender-teal-panda.cyclic.app/map/airport/${pilot.dep}`)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log("data was sent")
+              
                 setDep(responseData);
             })
         } catch (error) {
@@ -44,7 +44,7 @@ const FlightInfo = ({pilot, getDistance}) => {
         
     
         const getStatus = (speed, latOfPlane, lonOfPlane, latOfAirport, lonOfAirport) => {
-            console.log("status was called")
+          
             if (latOfAirport==="Nan" || lonOfAirport==="NaN") {
                 return setStatus("N/A");
             }
