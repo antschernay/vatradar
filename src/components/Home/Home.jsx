@@ -34,8 +34,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
         const storageCenter = localStorage.getItem('center')
         if (storageZoom) {
           setZoom(JSON.parse(storageZoom))
-          console.log(JSON.parse(JSON.parse(storageZoom)))
-          console.log(zoom)
+          
         }
     
         if (storageAirports) {
@@ -44,7 +43,7 @@ const Home = ({pilots, selectedPlanes, setSelectedPlanes, selectedAirports, setS
         
     
         if (storageCenter) {
-          console.log(storageCenter)
+      
           setCenter(JSON.parse(storageCenter))
          
         }
