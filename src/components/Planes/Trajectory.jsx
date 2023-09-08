@@ -44,7 +44,7 @@ const Trajectory = ({callsign, lat, lon, arrIcao, depIcao}) => {
         fetch(`https://tender-teal-panda.cyclic.app/map/airport/${depIcao}`)
         .then((response) => response.json())
         .then((responseData) => { 
-          console.log(responseData.lat_decimal)
+          
           if (responseData.lat_decimal === 'NaN') {
             
             setDepAirportLat(lat);
