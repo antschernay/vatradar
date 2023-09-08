@@ -15,14 +15,14 @@ const LinesToFlights = ({lat, lon, icao_code, pilots}) => {
         setDepartures([]);
         pilots.map(pilot => {
             if (pilot.arr===icao_code){
-                console.log('true')
+               
                 setArrivals(arrivals => [...arrivals, { "latArr": pilot.lat, "lonArr":pilot.lon}])
             }
             if (pilot.dep===icao_code) {
                 setDepartures(departures => [...departures, { "latDep": pilot.lat, "lonDep":pilot.lon}])
             }
         });
-        console.log(arrivals)
+       
     }, [pilots, icao_code])
 
 
