@@ -39,7 +39,7 @@ const SelectedAirports = ({airports, pilots, accordionItem, setAccordionItem, ha
                                     onClick={()=> setAccordionItem("")} />
                                     :
                                     <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faCaretDown} 
-                                    onClick={()=> {setAccordionItem(airport.icao_code); console.log(airport)}}  />
+                                    onClick={()=> {setAccordionItem(airport.icao_code); }}  />
                                 }
                                 <FontAwesomeIcon className='white dib f7 ph2 pointer' icon={faXmark} 
                                     onClick={()=> {handleDelete(airports, airport, setSelectedAirports);
