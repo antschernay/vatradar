@@ -19,7 +19,7 @@ const Atc = ({ airports, selectedAirports, setSelectedAirports, setAccordionItem
   })
 
   const handleAdd = (array, item, event) => {
-    console.log(array)
+    
     if (!array.some(value => value.icao_code === item.icao_code)) {
       event(prevArray => [...prevArray, item])
     } 
