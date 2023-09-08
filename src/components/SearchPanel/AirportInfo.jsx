@@ -128,7 +128,7 @@ const AirportInfo = ({airport, pilots, selectedFlight, setSelectedFlight, handle
             fetch(`https://tender-teal-panda.cyclic.app/map/weather/${airport.icao_code}`)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(responseData);
+                
                 setWeather(responseData);
             })
         } 
