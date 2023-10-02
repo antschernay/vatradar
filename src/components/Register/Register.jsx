@@ -17,9 +17,13 @@ const Register = () => {
       e.preventDefault();
     
       if (!nameRef.current.value || !emailRef.current.value || !passwordRef.current.value) {
-        setError("Fields name, email, and password cannot be empty");
-      } else {
-        fetch('https://tender-teal-panda.cyclic.app/auth/register', {
+        return setError("Fields name, email, and password cannot be empty");
+      } 
+      else if (passwordRef.current.value.length < 12) {
+        return setError("The password must be at least 12 characters long.")
+      }
+      else {
+        fetch('http://localhost:3001/auth/register', {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
