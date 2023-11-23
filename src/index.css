@@ -241,6 +241,9 @@ a.leaflet-popup-close-button{
 
 @media (max-width: 675px) {
 
+  body {
+    height: 100svh;
+  }
   article {
     width: 88% !important;
   }
