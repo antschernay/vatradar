@@ -2,6 +2,6 @@
 
 A real-time Situational Awareness program for VATSIM, built with React and React-Leaflet.
 
-This project is available live at: https://spontaneous-hotteok-dd6400.netlify.app/
+This project is available live at: https://vatradar.netlify.app/
 
 
